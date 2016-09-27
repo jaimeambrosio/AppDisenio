@@ -30,18 +30,18 @@
                         <div class="panel-body">
                             <form id="idFormLogin"  method="POST">
                                 <div class="form-group">
-                                    <label class="required">Usuario</label>
-                                    <input type="text" minlength="5" class="form-control" name="txtUsuario" value="" id="txtUsuario" placeholder="Usuario" required="">
+                                    <label class="required">Correo</label>
+                                    <input type="email"  class="form-control" name="txtCorreo" value="" id="txtCorreo" placeholder="Correo" required="true">
                                 </div>
                                 <div class="form-group">
                                     <label class="required">Contraseña</label>
-                                    <input type="password" minlength="5" name="txtContrasenia" id="txtContrasenia" value="" class="form-control"  placeholder="Contraseña" required>
+                                    <input type="password" name="txtContrasenia" id="txtContrasenia" value="" class="form-control"  placeholder="Contraseña" required>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label>
-                                            <input name="txtRecordarP" id="txtRecordarP" type="checkbox" value="true"> Recordar contraseña
+                                            <input name="txtRecordarP" id="txtRecordarP" type="checkbox" checked=""> Recordar contraseña
                                         </label>
                                     </div>
                                 </div>
