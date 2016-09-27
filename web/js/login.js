@@ -1,6 +1,6 @@
 $().ready(function () {
-     NProgress.configure({showSpinner: false});
+    NProgress.configure({showSpinner: false});
     NProgress.start();
-   
-      NProgress.done();
+
+    NProgress.done();
 });

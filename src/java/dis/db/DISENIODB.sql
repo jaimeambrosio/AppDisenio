@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `DISENIODB`.`Usuario` (
   `correo` VARCHAR(100) NULL,
   `flgActivo` TINYINT(1) NULL,
   `colegioProcedencia` VARCHAR(100) NULL,
+ `fechaHoraBloqueo` DATE NULL,
   `codTipoUsuario` INT NOT NULL,
   PRIMARY KEY (`codUsuario`),
   INDEX `fk_Usuario_TipoUsuario1_idx` (`codTipoUsuario` ASC),
