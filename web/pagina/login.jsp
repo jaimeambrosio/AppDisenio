@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group" align="center" >
-                                    <button type="submit" class="btn btn-primary">Ingresar al sistema</button>
+                                    <button onclick="redireccionaTest();" type="submit" class="btn btn-primary">Ingresar al sistema</button>
                                    
                                 </div>
 

@@ -13,3 +13,5 @@
 <script src="/AppDisenio/libs/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="/AppDisenio/libs/datatables/dataTables.responsive.min.js" type="text/javascript"></script>
 
+<script src="/AppDisenio/libs/metisMenu/metisMenu.js" type="text/javascript"></script>
+<script src="/AppDisenio/libs/sb-admin/sb-admin.js" type="text/javascript"></script>

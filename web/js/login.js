@@ -5,3 +5,7 @@ $().ready(function () {
 
     NProgress.done();
 });
+
+function redireccionaTest(){
+      window.location.href = "inicio.jsp";
+}
