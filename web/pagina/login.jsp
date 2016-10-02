@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group" align="center" >
-                                    <button onclick="redireccionaTest();" type="submit" class="btn btn-primary">Ingresar al sistema</button>
+                                    <button  type="submit" class="btn btn-primary">Ingresar al sistema</button>
                                    
                                 </div>
 
@@ -56,6 +56,7 @@
                 </div>
             </div>
         </div>
+        <%@include file="../plantilla/modalMensajes.jsp" %>
         <%@include file="../plantilla/contenedor-js.jsp" %>
         <script src="../js/login.js" type="text/javascript"></script>
     </body>

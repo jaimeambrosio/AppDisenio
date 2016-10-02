@@ -143,7 +143,8 @@
             </div>
 
         </div>
-
+        
+        <%@include file="../plantilla/modalMensajes.jsp" %>
         <%@include file="../plantilla/contenedor-js.jsp" %>
     </body>
 </html>

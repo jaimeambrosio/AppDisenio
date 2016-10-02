@@ -5,6 +5,7 @@
  */
 package dis.curso.entity;
 
+import dis.usuario.entity.Alumno;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -47,6 +48,8 @@ public class Carrera implements Serializable {
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codCarrera")
     private List<Curso> cursoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codCarrera")
+    private List<Alumno> alumnoList;
 
     public Carrera() {
     }
@@ -86,6 +89,15 @@ public class Carrera implements Serializable {
 
     public void setCursoList(List<Curso> cursoList) {
         this.cursoList = cursoList;
+    }
+
+    @XmlTransient
+    public List<Alumno> getAlumnoList() {
+        return alumnoList;
+    }
+
+    public void setAlumnoList(List<Alumno> alumnoList) {
+        this.alumnoList = alumnoList;
     }
 
     @Override

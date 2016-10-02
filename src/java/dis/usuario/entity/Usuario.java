@@ -8,6 +8,7 @@ package dis.usuario.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,7 +41,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuario.findByCorreo", query = "SELECT u FROM Usuario u WHERE u.correo = :correo"),
     @NamedQuery(name = "Usuario.findByContrasenia", query = "SELECT u FROM Usuario u WHERE u.contrasenia = :contrasenia"),
     @NamedQuery(name = "Usuario.findByFlgActivo", query = "SELECT u FROM Usuario u WHERE u.flgActivo = :flgActivo"),
-    @NamedQuery(name = "Usuario.findByColegioProcedencia", query = "SELECT u FROM Usuario u WHERE u.colegioProcedencia = :colegioProcedencia"),
     @NamedQuery(name = "Usuario.findByFechaHoraBloqueo", query = "SELECT u FROM Usuario u WHERE u.fechaHoraBloqueo = :fechaHoraBloqueo"),
     @NamedQuery(name = "Usuario.findByCantErrorIngreso", query = "SELECT u FROM Usuario u WHERE u.cantErrorIngreso = :cantErrorIngreso")})
 public class Usuario implements Serializable {
@@ -70,13 +71,15 @@ public class Usuario implements Serializable {
     private String contrasenia;
     @Column(name = "flgActivo")
     private Boolean flgActivo;
-    @Column(name = "colegioProcedencia")
-    private String colegioProcedencia;
     @Column(name = "fechaHoraBloqueo")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHoraBloqueo;
     @Column(name = "cantErrorIngreso")
     private Integer cantErrorIngreso;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Docente docente;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Alumno alumno;
     @JoinColumn(name = "codTipoUsuario", referencedColumnName = "codTipoUsuario")
     @ManyToOne(optional = false)
     private Tipousuario codTipoUsuario;
@@ -174,14 +177,6 @@ public class Usuario implements Serializable {
         this.flgActivo = flgActivo;
     }
 
-    public String getColegioProcedencia() {
-        return colegioProcedencia;
-    }
-
-    public void setColegioProcedencia(String colegioProcedencia) {
-        this.colegioProcedencia = colegioProcedencia;
-    }
-
     public Date getFechaHoraBloqueo() {
         return fechaHoraBloqueo;
     }
@@ -196,6 +191,22 @@ public class Usuario implements Serializable {
 
     public void setCantErrorIngreso(Integer cantErrorIngreso) {
         this.cantErrorIngreso = cantErrorIngreso;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
+    }
+
+    public Alumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
     }
 
     public Tipousuario getCodTipoUsuario() {
@@ -228,7 +239,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "dis.usuario.entity.Usuario[ codUsuario=" + codUsuario + " ]";
+        return "dis.curso.entity.Usuario[ codUsuario=" + codUsuario + " ]";
     }
     
 }

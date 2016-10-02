@@ -5,8 +5,11 @@
  */
 package dis.sede.entity;
 
+import dis.usuario.entity.Alumno;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,8 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -46,6 +51,8 @@ public class Sede implements Serializable {
     @JoinColumn(name = "codDistrito", referencedColumnName = "codDistrito")
     @ManyToOne(optional = false)
     private Distrito codDistrito;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codSede")
+    private List<Alumno> alumnoList;
 
     public Sede() {
     }
@@ -92,6 +99,15 @@ public class Sede implements Serializable {
 
     public void setCodDistrito(Distrito codDistrito) {
         this.codDistrito = codDistrito;
+    }
+
+    @XmlTransient
+    public List<Alumno> getAlumnoList() {
+        return alumnoList;
+    }
+
+    public void setAlumnoList(List<Alumno> alumnoList) {
+        this.alumnoList = alumnoList;
     }
 
     @Override

@@ -15,3 +15,7 @@
 
 <script src="/AppDisenio/libs/metisMenu/metisMenu.js" type="text/javascript"></script>
 <script src="/AppDisenio/libs/sb-admin/sb-admin.js" type="text/javascript"></script>
+
+<script src="/AppDisenio/libs/form-master/jquery.form.js" type="text/javascript"></script>
+
+<script src="/AppDisenio/js/funcionesComunes.js" type="text/javascript"></script>

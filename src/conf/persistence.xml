@@ -6,10 +6,14 @@
     <class>dis.sede.entity.Sede</class>
     <class>dis.curso.entity.Curso</class>
     <class>dis.curso.entity.Carrera</class>
-    <class>dis.usuario.entity.Tipousuario</class>
-    <class>dis.usuario.entity.Usuario</class>
     <class>dis.producto.entity.Tipoproducto</class>
     <class>dis.producto.entity.Producto</class>
+    <class>dis.usuario.servlet.entity.Tipousuario</class>
+    <class>dis.usuario.servlet.entity.Usuario</class>
+    <class>dis.usuario.entity.Tipousuario</class>
+    <class>dis.usuario.entity.Alumno</class>
+    <class>dis.usuario.entity.Usuario</class>
+    <class>dis.usuario.entity.Docente</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/diseniodb?zeroDateTimeBehavior=convertToNull"/>
