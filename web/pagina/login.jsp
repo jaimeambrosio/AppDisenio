@@ -30,12 +30,12 @@
                         <div class="panel-body">
                             <form id="idFormLogin"  method="POST">
                                 <div class="form-group">
-                                    <label class="required">Correo</label>
-                                    <input type="email"  class="form-control" name="txtCorreo" value="" id="txtCorreo" placeholder="Correo" required="true">
+                                    <label class="required">Codigo</label>
+                                    <input type="text" minlength="10" maxlength="10" class="form-control" name="txtCodUsuario" value="D201620001" id="txtCodUsuario" placeholder="Codigo" required="true">
                                 </div>
                                 <div class="form-group">
                                     <label class="required">Contraseña</label>
-                                    <input type="password" name="txtContrasenia" id="txtContrasenia" value="" class="form-control"  placeholder="Contraseña" required>
+                                    <input type="password" name="txtContrasenia" id="txtContrasenia" value="12345" class="form-control"  placeholder="Contraseña" required>
                                 </div>
 
                                 <div class="form-group">
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="form-group" align="center" >
                                     <button  type="submit" class="btn btn-primary">Ingresar al sistema</button>
-                                   
+
                                 </div>
 
                             </form>    

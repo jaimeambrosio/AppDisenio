@@ -2,14 +2,14 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="AppDisenioPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>dis.sede.entity.Distrito</class>
-    <class>dis.sede.entity.Sede</class>
     <class>dis.curso.entity.Curso</class>
     <class>dis.curso.entity.Carrera</class>
     <class>dis.producto.entity.Tipoproducto</class>
     <class>dis.producto.entity.Producto</class>
     <class>dis.usuario.servlet.entity.Tipousuario</class>
     <class>dis.usuario.servlet.entity.Usuario</class>
+    <class>dis.sede.entity.Sede</class>
+    <class>dis.sede.entity.Distrito</class>
     <class>dis.usuario.entity.Tipousuario</class>
     <class>dis.usuario.entity.Alumno</class>
     <class>dis.usuario.entity.Usuario</class>

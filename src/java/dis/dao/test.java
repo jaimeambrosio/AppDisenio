@@ -8,6 +8,7 @@ package dis.dao;
 import dis.usuario.entity.Usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -16,18 +17,15 @@ import javax.persistence.Query;
 public class test {
 
     public static void main(String[] args) {
-         EntityManager em = ConexionJPA.getEntityManager();
-         Query query = em.createQuery("SELECT u FROM Usuario u WHERE u.correo = :correo AND u.contrasenia = :contrasenia");
-        query.setParameter("correo", "correo@correo.com");
-        query.setParameter("contrasenia", "12345");
-        Usuario u =  (Usuario)query.getSingleResult();
-        System.out.println(u);
-         /*
+
         EntityManager em = ConexionJPA.getEntityManager();
-        Query query = em.createQuery("SELECT u FROM Usuario u WHERE u.username = :username AND u.contrasenia = :contrasenia");
-        query.setParameter("username", "admin");
-        query.setParameter("contrasenia", "admin");
-        */
+        System.out.println(em.find(Usuario.class, "sd"));
+        /*
+        TypedQuery<Usuario> qFindByCorreo = em.createNamedQuery("Usuario.findByCodUsuario", Usuario.class);
+        qFindByCorreo.setParameter("codUsuario", "D201620001");
+        Usuario u = qFindByCorreo.getSingleResult();
+        System.out.println(u);*/
+
     }
 
 }

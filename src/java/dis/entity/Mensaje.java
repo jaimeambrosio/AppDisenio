@@ -21,8 +21,8 @@ public class Mensaje {
 
     public Mensaje() {
         hayMensaje = false;
-        tipo = null;
-        mensaje = null;
+        tipo = "";
+        mensaje = "";
     }
 
     public Mensaje(boolean hayMensaje, String tipo) {
