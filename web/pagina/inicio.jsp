@@ -49,21 +49,21 @@
 
                                 </li>
                                 <li>
-                                    <a href="#" data-link="paneles/p_usuarios.jsp" data-constructor="p_usuarios();" id="pUsuarios" ><span class="glyphicon glyphicon-home"  ></span>  Usuarios</a>
+                                    <a href="#" data-link="paneles/p_usuarios.jsp" data-constructor="p_usuarios();" id="pUsuarios" ><span class="glyphicon glyphicon-user"  ></span>  Usuarios</a>
                                     <ul class="nav nav-second-level"></ul>
                                 </li>
                                 <li>
-                                    <a href="#"  data-link="paneles/p_cursos.jsp" data-constructor="p_cursos();" ><span class="glyphicon glyphicon-hourglass" ></span> Cursos</a>
-                                    <ul class="nav nav-second-level"></ul>
-
-                                </li>
-                                <li>
-                                    <a href="#"><span class="glyphicon glyphicon-hourglass" ></span> Producto</a>
+                                    <a href="#"  data-link="paneles/p_cursos.jsp" data-constructor="p_cursos();" ><span class="glyphicon glyphicon-book" ></span> Cursos</a>
                                     <ul class="nav nav-second-level"></ul>
 
                                 </li>
                                 <li>
-                                    <a href="#"><span class="glyphicon glyphicon-hourglass" ></span> Sede</a>
+                                    <a href="#"><span class="glyphicon glyphicon-file" ></span> Producto</a>
+                                    <ul class="nav nav-second-level"></ul>
+
+                                </li>
+                                <li>
+                                    <a href="#"  data-link="paneles/p_sede.jsp" data-constructor="p_sede();" ><span class="glyphicon glyphicon-equalizer" ></span> Sede</a>
                                     <ul class="nav nav-second-level"></ul>
 
                                 </li>
@@ -105,5 +105,6 @@
         <script src="../js/config_inicio.js" type="text/javascript"></script>
         <script src="../js/p_usuarios.js" type="text/javascript"></script>
         <script src="../js/p_cursos.js" type="text/javascript"></script>
+        <script src="../js/p_sede.js" type="text/javascript"></script>
     </body>
 </html>
