@@ -2,6 +2,8 @@ var tblSede;
 function p_sede()
 {
     tblSede = $('#tblSede').DataTable({responsive: true});
+    $("#idFormSede").validate().resetForm();
+    $("#idFormSede .error").removeClass("error");
     $('#idFormBusquedaSede').ajaxForm({
         url: "../sedeServlet?accion=BUSQ",
         type: "post",
@@ -44,17 +46,17 @@ function p_sede()
         beforeSend: function (jqXHR, settings) {
             NProgress.start();
         },
-         success: function (data) {
+        success: function (data) {
             data = JSON.parse(data);
             if (data.msj.hayMensaje == true) {
                 mostrarModalMensaje(data.msj.mensaje, data.msj.tipo);
                 $("#btnBuscarSede").click();
-                if (data.msj.tipo=="INFORMACION") {
-                     $("#modalEdicionSede").modal('hide');
+                if (data.msj.tipo == "INFORMACION") {
+                    $("#modalEdicionSede").modal('hide');
                 }
-            } 
+            }
             NProgress.done();
-            
+
         },
         error: function (e) {
             mostrarModalMensaje('No se pudo establecer la sesion, probablemente tengas un problema con tu conexion a internet.',
