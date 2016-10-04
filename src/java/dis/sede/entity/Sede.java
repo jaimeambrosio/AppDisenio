@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Sede.findByFlgActivo", query = "SELECT s FROM Sede s WHERE s.flgActivo = :flgActivo")})
 public class Sede implements Serializable {
 
+    @Column(name = "nombreSede")
+    private String nombreSede;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -133,6 +136,14 @@ public class Sede implements Serializable {
     @Override
     public String toString() {
         return "dis.curso.entity.Sede[ codSede=" + codSede + " ]";
+    }
+
+    public String getNombreSede() {
+        return nombreSede;
+    }
+
+    public void setNombreSede(String nombreSede) {
+        this.nombreSede = nombreSede;
     }
     
 }

@@ -5,11 +5,19 @@
  */
 package dis.usuario.servlet;
 
+import dis.curso.dao.CursoDao;
+import dis.curso.entity.Carrera;
 import dis.entity.Mensaje;
+import dis.sede.dao.SedeDao;
+import dis.sede.entity.Sede;
 import dis.usuario.dao.UsuarioDao;
+import dis.usuario.entity.Alumno;
+import dis.usuario.entity.Docente;
+import dis.usuario.entity.Tipousuario;
 import dis.usuario.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -40,6 +48,8 @@ public class usuarioServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -55,6 +65,14 @@ public class usuarioServlet extends HttpServlet {
             }
             case "BUSQ": {
                 busquedaUsuario(request, response);
+                break;
+            }
+            case "GETUSUARIO": {
+                obtenerUsuario(request, response);
+                break;
+            }
+            case "GUARDAR": {
+                guardarUsuario(request, response);
                 break;
             }
         }
@@ -200,9 +218,10 @@ public class usuarioServlet extends HttpServlet {
             UsuarioDao usuarioDao = new UsuarioDao();
             List<Usuario> listUsuario = usuarioDao.busquedaPorCampos(codigo, apellidos, estado);
             JSONArray jsonFil = new JSONArray();
-            JSONArray jsonCol = new JSONArray();
+            JSONArray jsonCol = null;
             if (listUsuario != null) {
                 for (Usuario usuario : listUsuario) {
+                    jsonCol = new JSONArray();
                     jsonCol.put(usuario.getCodUsuario());
                     jsonCol.put(usuario.getNombre());
                     jsonCol.put(usuario.getApellido());
@@ -220,6 +239,147 @@ public class usuarioServlet extends HttpServlet {
         try {
             jsonResult.put("msj", jsonMensaje);
             //  jsonResult.put("", "");
+            enviarDatos(response, jsonResult.toString());
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void obtenerUsuario(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonResult = new JSONObject();
+        Mensaje mensaje = new Mensaje();
+        String codUsuario = request.getParameter("codUsuario");
+        try {
+            UsuarioDao usuarioDao = new UsuarioDao();
+            Usuario usuario = usuarioDao.Obtener(codUsuario);
+            Alumno alumno = null;
+            Docente docente = null;
+            if (usuario.getCodTipoUsuario().getCodTipoUsuario() == 2) { //docente
+                docente = usuarioDao.ObtenerDocente(codUsuario);
+            }
+            if (usuario.getCodTipoUsuario().getCodTipoUsuario() == 3) { //al
+                alumno = usuarioDao.ObtenerAlumno(codUsuario);
+            }
+            if (usuario != null) {
+                JSONObject j = new JSONObject();
+                j.put("codUsuario", usuario.getCodUsuario());
+                j.put("nombre", usuario.getNombre());
+                j.put("apellido", usuario.getApellido());
+                j.put("dni", usuario.getDni());
+                j.put("fechaNacimiento", dateFormat.format(usuario.getFechaNacimiento()));
+                j.put("sexo", usuario.getSexo());
+                j.put("numCelular", usuario.getNumCelular());
+                j.put("correo", usuario.getCorreo());
+                j.put("contrasenia", usuario.getContrasenia());
+                j.put("flgActivo", usuario.getFlgActivo());
+                j.put("codTipoUsuario", usuario.getCodTipoUsuario().getCodTipoUsuario());
+                if (docente != null) {
+                    j.put("isTiempoCompleto", docente.getIsTiempoCompleto());
+                }
+                if (alumno != null) {
+                    j.put("colegioProcedencia", alumno.getColegioProcedencia());
+                    j.put("codCarrera", alumno.getCodCarrera().getCodCarrera());
+                    j.put("codSede", alumno.getCodSede().getCodSede());
+                }
+                jsonResult.put("usuario", j);
+            } else {
+                mensaje.setMensaje(Mensaje.ERROR, "El usuario seleccionado no se encontro en la base de datos.");
+            }
+
+        } catch (Exception e) {
+            mensaje.establecerError(e);
+        }
+        JSONObject jsonMensaje = new JSONObject(mensaje);
+        try {
+            jsonResult.put("msj", jsonMensaje);
+            enviarDatos(response, jsonResult.toString());
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private void guardarUsuario(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonResult = new JSONObject();
+        Mensaje mensaje = new Mensaje();
+
+        try {
+            UsuarioDao usuarioDao = new UsuarioDao();
+            String txtCodigo = request.getParameter("txtCodigo");
+            String txtNombre = request.getParameter("txtNombre");
+            String txtApellido = request.getParameter("txtApellido");
+            String txtDNI = request.getParameter("txtDNI");
+            String txtNacimiento = request.getParameter("txtNacimiento");
+            String cbxSexo = request.getParameter("cbxSexo");
+            String txtCelular = request.getParameter("txtCelular");
+            String txtCorreo = request.getParameter("txtCorreo");
+            String txtContrasenia = request.getParameter("txtContrasenia");
+            String cbxEstado = request.getParameter("cbxEstado");
+            String txtTipoUsuario = request.getParameter("txtTipoUsuario");
+            Usuario u = new Usuario();
+            if (!txtCodigo.isEmpty()) {
+                u = usuarioDao.Obtener(txtCodigo);
+            }
+            u.setNombre(txtNombre.trim());
+            u.setApellido(txtApellido.trim());
+            u.setDni(txtDNI);
+            u.setFechaNacimiento(dateFormat.parse(txtNacimiento));
+            u.setSexo(Boolean.parseBoolean(cbxSexo));
+            u.setNumCelular(txtCelular);
+            u.setCorreo(txtCorreo);
+            u.setContrasenia(txtContrasenia);
+            u.setFlgActivo(Boolean.parseBoolean(cbxEstado));
+            Tipousuario t = usuarioDao.ObtenerTipo(txtTipoUsuario);
+            u.setCodTipoUsuario(t);
+            if (txtCodigo.isEmpty()) //nuevo
+            {
+                usuarioDao.Insertar(u);
+            } else {
+                usuarioDao.Actualizar(u);
+            }
+            CursoDao cursoDao = new CursoDao();
+            SedeDao sedeDao = new SedeDao();
+            if ("3".equals(txtTipoUsuario)) {
+                String txtColegioProc = request.getParameter("txtColegioProc");
+                String cbxCarrera = request.getParameter("cbxCarrera");
+                String cbxSede = request.getParameter("cbxSede");
+                Carrera c = cursoDao.ObtenerCarrera(Integer.valueOf(cbxCarrera));
+                Sede s = sedeDao.Obtener(cbxSede);
+                Alumno a = new Alumno();
+                if (!txtCodigo.isEmpty()) {
+                    a = usuarioDao.ObtenerAlumno(txtCodigo);
+                }
+                a.setCodAlumno(u.getCodUsuario());
+                a.setColegioProcedencia(txtColegioProc);
+                a.setCodCarrera(c);
+                a.setCodSede(s);
+                if (txtCodigo.isEmpty()) {
+                    usuarioDao.InsertarALumno(a);
+                } else {
+                    usuarioDao.ActualizarAlumno(a);
+                }
+            }
+            if ("2".equals(txtTipoUsuario)) {
+                String cbTiempoCom = request.getParameter("cbTiempoCom");
+                Docente d = new Docente();
+                if (!txtCodigo.isEmpty()) {
+                    d = usuarioDao.ObtenerDocente(txtCodigo);
+                }
+                d.setCodDocente(u.getCodUsuario());
+                d.setIsTiempoCompleto(cbTiempoCom != null);
+                if (txtCodigo.isEmpty()) {
+                    usuarioDao.InsertarDocente(d);
+                } else {
+                    usuarioDao.ActualizarDocente(d);
+                }
+            }
+            mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+        } catch (Exception e) {
+            mensaje.establecerError(e);
+        }
+        JSONObject jsonMensaje = new JSONObject(mensaje);
+        try {
+            jsonResult.put("msj", jsonMensaje);
             enviarDatos(response, jsonResult.toString());
 
         } catch (Exception e) {

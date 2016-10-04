@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS `diseniodb`.`sede` (
   `codSede` VARCHAR(10) NOT NULL,
   `direccion` VARCHAR(300) NULL DEFAULT NULL,
   `descripcion` VARCHAR(500) NULL DEFAULT NULL,
+  `nombreSede` VARCHAR(150) NULL DEFAULT NULL,
   `flgActivo` TINYINT(1) NULL DEFAULT NULL,
   `codDistrito` INT(11) NOT NULL,
   PRIMARY KEY (`codSede`),

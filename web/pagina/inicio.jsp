@@ -104,5 +104,6 @@
         
         <script src="../js/config_inicio.js" type="text/javascript"></script>
         <script src="../js/p_usuarios.js" type="text/javascript"></script>
+        <script src="../js/p_cursos.js" type="text/javascript"></script>
     </body>
 </html>

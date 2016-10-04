@@ -5,12 +5,14 @@
  */
 package dis.usuario.entity;
 
+import dis.dao.ConexionJPA;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -241,5 +243,6 @@ public class Usuario implements Serializable {
     public String toString() {
         return "dis.curso.entity.Usuario[ codUsuario=" + codUsuario + " ]";
     }
+
     
 }

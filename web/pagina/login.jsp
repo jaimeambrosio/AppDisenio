@@ -31,7 +31,7 @@
                             <form id="idFormLogin"  method="POST">
                                 <div class="form-group">
                                     <label class="required">Codigo</label>
-                                    <input type="text" minlength="10" maxlength="10" class="form-control" name="txtCodUsuario" value="D201620001" id="txtCodUsuario" placeholder="Codigo" required="true">
+                                    <input type="text" maxlength="10" class="form-control" name="txtCodUsuario" value="ADNAPE" id="txtCodUsuario" placeholder="Codigo" required="true">
                                 </div>
                                 <div class="form-group">
                                     <label class="required">Contraseña</label>

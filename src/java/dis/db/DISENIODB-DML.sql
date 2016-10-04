@@ -101,4 +101,8 @@ INSERT INTO tipoproducto(nombreTipoProd) VALUES('CONSTANCIA');
 INSERT INTO tipoproducto(nombreTipoProd) VALUES('CARTA DE PRESENTACIÓN');
 /*usuario*/
 INSERT INTO usuario(codUsuario,nombre,apellido,dni,fechaNacimiento,sexo,numCelular,correo,contrasenia,flgActivo,codTipoUsuario) 
-VALUES('D201620001','nombre','apellido','76963852','1995-08-07',0,'998017572','correo@correo.com','12345',1,1);
+VALUES('ADNAPE','nombre','apellido','76963852','1995-08-07',0,'998017572','correo@correo.com','12345',1,1);
+
+/*INSERT INTO sede(codSede,direccion,descripcion,flgActivo,codDistrito,nombreSede)
+VALUES('SI','dir','descripcion',1,51,'San isidro');
+*/

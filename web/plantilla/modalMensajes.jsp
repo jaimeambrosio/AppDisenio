@@ -18,9 +18,9 @@
                 <div class="modal-body">
                     <div class="row" >
                         <div class="col-sm-3"  align="center">
-                            <img  id="modalMensajesIconInformation" src="/AppFinanzas/img/information.png" alt=""/>
-                            <img  id="modalMensajesIconWarning" src="/AppFinanzas/img/warning.png" alt=""/>
-                            <img  id="modalMensajesIconError" src="/AppFinanzas/img/error.png" alt=""/>
+                            <img  id="modalMensajesIconInformation" src="/AppDisenio/img/information.png" alt=""/>
+                            <img  id="modalMensajesIconWarning" src="/AppDisenio/img/warning.png" alt=""/>
+                            <img  id="modalMensajesIconError" src="/AppDisenio/img/error.png" alt=""/>
                         </div>
                         <div class="col-sm-9"  >
                             <div id="modalMensajesCuerpo" ></div>

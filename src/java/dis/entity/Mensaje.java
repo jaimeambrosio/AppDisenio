@@ -81,7 +81,7 @@ public class Mensaje {
     public void establecerError(Exception e) {
         hayMensaje = true;
         tipo = Mensaje.ERROR;
-        mensaje = "Error al procesar la solicitud en el servidor. <br>" + e.getMessage();
+        mensaje = "Error al procesar la solicitud en el servidor. <br><br>" + e.getMessage();
     }
 
 }
