@@ -65,7 +65,9 @@ function p_usuarios()
             if (data.msj.hayMensaje == true) {
                 mostrarModalMensaje(data.msj.mensaje, data.msj.tipo);
                 $("#btnBuscarUsuarios").click();
-                $("#modalEdicionAdmin").modal('hide');
+                if (data.msj.tipo=="INFORMACION") {
+                     $("#modalEdicionAdmin").modal('hide');
+                }
                
             } 
             NProgress.done();
