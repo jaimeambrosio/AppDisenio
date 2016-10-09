@@ -52,10 +52,98 @@ var glbOptionsDataTable = {
     }
 };
 
+function openModalGlbUsuario()
+{
+    $.ajax({
+        url: "../usuarioServlet?accion=GETUSUSESION",
+        type: 'POST',
+        data: {
+        },
+        beforeSend: function (xhr) {
+            NProgress.start();
+        },
+        success: function (data) {
+
+            data = JSON.parse(data);
+            $("#idGlbSectionDocente").hide();
+            $("#idGlbSectionAlumno").hide();
+            if (data.msj.hayMensaje != true) {
+                $("#idGlbFormUsuario").validate().resetForm();
+                $("#idGlbFormUsuario .error").removeClass("error");
+                $("#idGlbFormUsuario *").attr("disabled", true);
+
+                $("#txtGlbCodigo").val(data.usuario.codUsuario);
+                $("#txtGlbNombre").val(data.usuario.nombre);
+                $("#txtGlbApellido").val(data.usuario.apellido);
+                $("#txtGlbDNI").val(data.usuario.dni);
+                $("#txtGlbNacimiento").val(data.usuario.fechaNacimiento);
+                $("#cbxGlbSexo").val("" + data.usuario.sexo);
+                $("#txtGlbCelular").val(data.usuario.numCelular);
+                $("#txtGlbCorreo").val(data.usuario.correo);
+                $("#txtGlbContrasenia").val(data.usuario.contrasenia);
+                $("#cbxGlbEstado").val("" + data.usuario.flgActivo);
+                if (data.usuario.codTipoUsuario == 2) {
+                    $("#cbGlbTiempoCom").attr("checked", data.usuario.isTiempoCompleto);
+                    $("#idGlbSectionDocente").show();
+                }
+                if (data.usuario.codTipoUsuario == 3) {
+                    $("#cbxGlbCarrera").val("" + data.usuario.codCarrera);
+                    $("#cbxGlbSede").val("" + data.usuario.codSede);
+                    $("#txtGlbColegioProc").val(data.usuario.colegioProcedencia);
+                    $("#idGlbSectionAlumno").show();
+                }
+                $("#txtGlbCelular").attr("disabled", false);
+                $("#txtGlbCorreo").attr("disabled", false);
+                $("#txtGlbContrasenia").attr("disabled", false);
+                $("#idGlbFormUsuario button").attr("disabled", false);
+
+                //  $("#idGlbFormUsuario txtGlbCelular").attr("disabled",false);
+                $("#modalGlbEdicion").modal('show');
+            } else
+            {
+                mostrarModalMensaje(data.msj.mensaje, data.msj.tipo);
+            }
+            NProgress.done();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            mostrarModalMensaje('No se pudo invocar al servidor, probablemente tengas un problema con tu conexion a internet.',
+                    jqXHR.responseText,
+                    "ERROR");
+            NProgress.done();
+        }
+    });
+}
+
 //cuando se carga la pagina
 $().ready(function () {
 
+
     NProgress.configure({showSpinner: false});
+    $("#idGlbFormUsuario").validate().resetForm();
+    $('#idGlbFormUsuario').ajaxForm({
+        url: "../usuarioServlet?accion=GUARUSUSES",
+        type: "post",
+        beforeSend: function (jqXHR, settings) {
+            NProgress.start();
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            if (data.msj.hayMensaje == true) {
+                mostrarModalMensaje(data.msj.mensaje, data.msj.tipo);
+                if (data.msj.tipo == "INFORMACION") {
+                    $("#modalGlbEdicion").modal('hide');
+                }
+
+            }
+            NProgress.done();
+
+        },
+        error: function (e) {
+            NProgress.done();
+            mostrarModalMensaje('No se pudo establecer la sesion, probablemente tengas un problema con tu conexion a internet.',
+                    "ERROR");
+        }
+    });
     configureMenu();
     $("#pUsuarios").click();
 });

@@ -10,7 +10,7 @@ function p_usuarios()
 
     }, "EL usuario tiene que ser mayor de edad");
     tblUsuarios = $('#tblUsuarios').DataTable(glbOptionsDataTable);
-     $("#idFormUsuarioAdmin").validate({rules: {
+    $("#idFormUsuarioAdmin").validate({rules: {
             txtNacimiento: {
                 validFecha: true
             }
@@ -28,7 +28,8 @@ function p_usuarios()
                 NProgress.done();
             } else
             {
-                var fil = data.list;console.log(fil);
+                var fil = data.list;
+                console.log(fil);
                 var tbody = "";
                 tblUsuarios.destroy();
                 for (var i = 0; i < fil.length; ++i) {
@@ -51,9 +52,10 @@ function p_usuarios()
         error: function (e) {
             mostrarModalMensaje('No se pudo establecer la sesion, probablemente tengas un problema con tu conexion a internet.',
                     "ERROR");
+                    NProgress.done();
         }
     });
-    
+
     $('#idFormUsuarioAdmin').ajaxForm({
         url: "../usuarioServlet?accion=GUARDAR",
         type: "post",
@@ -65,17 +67,18 @@ function p_usuarios()
             if (data.msj.hayMensaje == true) {
                 mostrarModalMensaje(data.msj.mensaje, data.msj.tipo);
                 $("#btnBuscarUsuarios").click();
-                if (data.msj.tipo=="INFORMACION") {
-                     $("#modalEdicionAdmin").modal('hide');
+                if (data.msj.tipo == "INFORMACION") {
+                    $("#modalEdicionAdmin").modal('hide');
                 }
-               
-            } 
+
+            }
             NProgress.done();
-            
+
         },
         error: function (e) {
             mostrarModalMensaje('No se pudo establecer la sesion, probablemente tengas un problema con tu conexion a internet.',
                     "ERROR");
+            NProgress.done();
         }
     });
 

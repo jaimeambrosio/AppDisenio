@@ -71,8 +71,16 @@ public class usuarioServlet extends HttpServlet {
                 obtenerUsuario(request, response);
                 break;
             }
+            case "GETUSUSESION": {
+                obtenerUsuarioSesion(request, response);
+                break;
+            }
             case "GUARDAR": {
                 guardarUsuario(request, response);
+                break;
+            }
+            case "GUARUSUSES": {
+                guardarUsuarioDeSesion(request, response);
                 break;
             }
         }
@@ -374,6 +382,94 @@ public class usuarioServlet extends HttpServlet {
                 }
             }
             mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+        } catch (Exception e) {
+            mensaje.establecerError(e);
+        }
+        JSONObject jsonMensaje = new JSONObject(mensaje);
+        try {
+            jsonResult.put("msj", jsonMensaje);
+            enviarDatos(response, jsonResult.toString());
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void obtenerUsuarioSesion(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonResult = new JSONObject();
+        Mensaje mensaje = new Mensaje();
+        HttpSession session = request.getSession();
+        //   Usuario usuarioLogeado = (Usuario)session.getAttribute("usuarioLogeado");
+        //String codUsuario = request.getParameter("codUsuario");
+        try {
+            UsuarioDao usuarioDao = new UsuarioDao();
+            Usuario usuarioLogeado = (Usuario) session.getAttribute("usuarioLogeado");
+            Alumno alumno = null;
+            Docente docente = null;
+            if (usuarioLogeado.getCodTipoUsuario().getCodTipoUsuario() == 2) { //docente
+                docente = usuarioDao.ObtenerDocente(usuarioLogeado.getCodUsuario());
+            }
+            if (usuarioLogeado.getCodTipoUsuario().getCodTipoUsuario() == 3) { //al
+                alumno = usuarioDao.ObtenerAlumno(usuarioLogeado.getCodUsuario());
+            }
+            if (usuarioLogeado != null) {
+                JSONObject j = new JSONObject();
+                j.put("codUsuario", usuarioLogeado.getCodUsuario());
+                j.put("nombre", usuarioLogeado.getNombre());
+                j.put("apellido", usuarioLogeado.getApellido());
+                j.put("dni", usuarioLogeado.getDni());
+                j.put("fechaNacimiento", dateFormat.format(usuarioLogeado.getFechaNacimiento()));
+                j.put("sexo", usuarioLogeado.getSexo());
+                j.put("numCelular", usuarioLogeado.getNumCelular());
+                j.put("correo", usuarioLogeado.getCorreo());
+                j.put("contrasenia", usuarioLogeado.getContrasenia());
+                j.put("flgActivo", usuarioLogeado.getFlgActivo());
+                j.put("codTipoUsuario", usuarioLogeado.getCodTipoUsuario().getCodTipoUsuario());
+                if (docente != null) {
+                    j.put("isTiempoCompleto", docente.getIsTiempoCompleto());
+                }
+                if (alumno != null) {
+                    j.put("colegioProcedencia", alumno.getColegioProcedencia());
+                    j.put("codCarrera", alumno.getCodCarrera().getCodCarrera());
+                    j.put("codSede", alumno.getCodSede().getCodSede());
+                }
+                jsonResult.put("usuario", j);
+            } else {
+                mensaje.setMensaje(Mensaje.ERROR, "No hay usuario logueado. Redireccionando ...");
+                response.sendRedirect("login.jsp");
+            }
+
+        } catch (Exception e) {
+            mensaje.establecerError(e);
+        }
+        JSONObject jsonMensaje = new JSONObject(mensaje);
+        try {
+            jsonResult.put("msj", jsonMensaje);
+            enviarDatos(response, jsonResult.toString());
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private void guardarUsuarioDeSesion(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonResult = new JSONObject();
+        Mensaje mensaje = new Mensaje();
+
+        try {
+            HttpSession session = request.getSession();
+            UsuarioDao usuarioDao = new UsuarioDao();
+            Usuario usuarioLogeado = (Usuario) session.getAttribute("usuarioLogeado");
+            String txtGlbCelular = request.getParameter("txtGlbCelular");
+            String txtGlbCorreo = request.getParameter("txtGlbCorreo");
+            String txtGlbContrasenia = request.getParameter("txtGlbContrasenia");
+
+            usuarioLogeado.setNumCelular(txtGlbCelular);
+            usuarioLogeado.setCorreo(txtGlbCorreo);
+            usuarioLogeado.setContrasenia(txtGlbContrasenia);
+
+            usuarioDao.Actualizar(usuarioLogeado);
+            
+            mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + usuarioLogeado.getCodUsuario());
         } catch (Exception e) {
             mensaje.establecerError(e);
         }

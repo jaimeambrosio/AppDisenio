@@ -73,7 +73,7 @@
                                     <a href="#" id="miCuenta"><span class="glyphicon glyphicon-cog"  ></span> Mi cuenta<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>
-                                            <a href="#" data-link="paneles/p-miperfil.jsp" data-constructor="p_miperfil();" id="pMiPerfil" ><span class="glyphicon glyphicon-user" ></span> Mi perfil</a>
+                                            <a href="#" onclick="openModalGlbUsuario();" id="pMiPerfil" ><span class="glyphicon glyphicon-user" ></span> Mi perfil</a>
                                         </li>
 
                                         <li>
@@ -100,6 +100,7 @@
         </div>
 
         <%@include file="../plantilla/modalMensajes.jsp" %>
+        <%@include file="../plantilla/modalGlbUsuario.jsp" %>
         <%@include file="../plantilla/contenedor-js.jsp" %>
         
         <script src="../js/config_inicio.js" type="text/javascript"></script>
