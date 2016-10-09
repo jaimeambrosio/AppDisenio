@@ -11,6 +11,7 @@ import dis.dao.BaseDao;
 import dis.dao.ConexionJPA;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,7 +32,7 @@ public class CursoDao implements BaseDao<Curso, String> {
         String cod
                 = nombres.length > 1
                         ? String.valueOf(nombres[0].charAt(0)) + nombres[1].charAt(0)
-                        : nombres[0].substring(0,2);
+                        : nombres[0].substring(0, 2);
         cod += entity.getNivel() + String.format("%02d", listar().size() + 1);
         entity.setCodCurso(cod.toUpperCase());
         em.getTransaction().begin();
@@ -77,5 +78,24 @@ public class CursoDao implements BaseDao<Curso, String> {
 
     public Carrera ObtenerCarrera(Integer valueOf) {
         return em.find(Carrera.class, valueOf);
+    }
+
+    public List<Curso> buscar(String txtCodigo, String txtNombre, String estado) {
+        String s = "SELECT c FROM Curso c WHERE c.flgActivo = :estado ";
+        if (!txtCodigo.isEmpty()) {
+            s += " AND c.codCurso = :cod ";
+        }
+        if (!txtNombre.isEmpty()) {
+            s += " AND c.nombreCurso LIKE :nom ";
+        }
+        Query q = em.createQuery(s);
+        q.setParameter("estado", "true".equals(estado));
+        if (!txtNombre.isEmpty()) {
+            q.setParameter("nom", "%" + txtNombre + "%");
+        }
+        if (!txtCodigo.isEmpty()) {
+            q.setParameter("cod", txtCodigo);
+        }
+        return q.getResultList();
     }
 }

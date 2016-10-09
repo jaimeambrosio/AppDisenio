@@ -32,6 +32,26 @@ function configureMenu() {
     });
 
 }
+
+var glbOptionsDataTable = {
+    responsive: true,
+    "language": {
+        "lengthMenu": "Mostrar _MENU_ registros por pagina",
+        "zeroRecords": "No se encontraron registros",
+        "info": "Mostrando _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros disponibles",
+        "infoFiltered": "(filtrado de _MAX_ registros)",
+        "search": "Buscar",
+        "emptyTable": "No hay datos disponibles en la tabla",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    }
+};
+
 //cuando se carga la pagina
 $().ready(function () {
 

@@ -1,7 +1,7 @@
 var tblSede;
 function p_sede()
 {
-    tblSede = $('#tblSede').DataTable({responsive: true});
+    tblSede = $('#tblSede').DataTable(glbOptionsDataTable);
     $('#idFormBusquedaSede').ajaxForm({
         url: "../sedeServlet?accion=BUSQ",
         type: "post",
@@ -29,7 +29,7 @@ function p_sede()
                     tbody += "</tr>";
                 }
                 $('#tblSede tbody').html(tbody);
-                tblSede = $('#tblSede').DataTable({responsive: true});
+                tblSede = $('#tblSede').DataTable(glbOptionsDataTable);
                 NProgress.done();
             }
         },

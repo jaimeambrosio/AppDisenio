@@ -43,7 +43,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="txtNombre">Nombre curso</label>
-                                        <input type="text" class="form-control" id="txtNombreSede" name="txtNombreSede" placeholder="Nombre">
+                                        <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre">
                                     </div>
                                 </div>
                             </div>

@@ -9,7 +9,7 @@ function p_usuarios()
         return anios >= 18;
 
     }, "EL usuario tiene que ser mayor de edad");
-    tblUsuarios = $('#tblUsuarios').DataTable({responsive: true});
+    tblUsuarios = $('#tblUsuarios').DataTable(glbOptionsDataTable);
      $("#idFormUsuarioAdmin").validate({rules: {
             txtNacimiento: {
                 validFecha: true
@@ -43,7 +43,7 @@ function p_usuarios()
                     tbody += "</tr>";
                 }
                 $('#tblUsuarios tbody').html(tbody);
-                tblUsuarios = $('#tblUsuarios').DataTable({responsive: true});
+                tblUsuarios = $('#tblUsuarios').DataTable(glbOptionsDataTable);
                 NProgress.done();
             }
 

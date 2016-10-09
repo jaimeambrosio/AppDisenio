@@ -8,8 +8,6 @@ package dis.curso.servlet;
 import dis.curso.dao.CursoDao;
 import dis.curso.entity.Curso;
 import dis.entity.Mensaje;
-import dis.sede.dao.SedeDao;
-import dis.sede.entity.Sede;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -100,11 +98,12 @@ public class cursoServlet extends HttpServlet {
         JSONObject jsonResult = new JSONObject();
         Mensaje mensaje = new Mensaje();
         String txtCodigo = request.getParameter("txtCodigo");
-        String txtNombreSede = request.getParameter("txtNombreSede");
+        String txtNombre = request.getParameter("txtNombre");
         String estado = request.getParameter("estado");
         try {
             CursoDao cursoDao = new CursoDao();
-            List<Curso> list = cursoDao.listar();
+           // List<Curso> list = cursoDao.listar();
+            List<Curso> list = cursoDao.buscar(txtCodigo,txtNombre,estado);
             JSONArray jsonFil = new JSONArray();
             JSONArray jsonCol = null;
             if (list != null) {

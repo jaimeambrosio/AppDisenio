@@ -10,6 +10,7 @@ import dis.producto.dao.ProductoDao;
 import dis.producto.entity.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,9 +45,18 @@ public class productoServlet extends HttpServlet {
                 buscarProductos(request, response);
                 break;
             }
+            case "GUARDAR": {
+                guardarProducto(request, response);
+                break;
+            }
+            case "GETPROD": {
+                obtenerProd(request, response);
+                break;
+            }
         }
     }
-     private void enviarDatos(HttpServletResponse response, String datos) throws Exception {
+
+    private void enviarDatos(HttpServletResponse response, String datos) throws Exception {
         PrintWriter out = null;
         out = response.getWriter();
         out.print(datos);
@@ -100,8 +110,9 @@ public class productoServlet extends HttpServlet {
         String estado = request.getParameter("estado");
         String cbxTipo = request.getParameter("cbxTipo");
         try {
-            ProductoDao dao = new  ProductoDao();
-            List<Producto> list = dao.listar();
+            ProductoDao dao = new ProductoDao();
+            //List<Producto> list = dao.listar();
+            List<Producto> list = dao.buscar(txtCodigo,txtNombre,estado,cbxTipo);
             JSONArray jsonFil = new JSONArray();
             JSONArray jsonCol = null;
             if (list != null) {
@@ -109,7 +120,7 @@ public class productoServlet extends HttpServlet {
                     jsonCol = new JSONArray();
                     jsonCol.put(p.getCodProducto());
                     jsonCol.put(p.getNombre());
-                    jsonCol.put(p.getCodTipoProducto().getCodTipoProducto());
+                    jsonCol.put(p.getCodTipoProducto().getNombreTipoProd());
                     jsonCol.put(p.getPrecio());
                     jsonCol.put(p.getFlgActivo() ? "Activo" : "Inactivo");
                     jsonFil.put(jsonCol);
@@ -124,6 +135,73 @@ public class productoServlet extends HttpServlet {
         try {
             jsonResult.put("msj", jsonMensaje);
             //  jsonResult.put("", "");
+            enviarDatos(response, jsonResult.toString());
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void guardarProducto(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonResult = new JSONObject();
+        Mensaje mensaje = new Mensaje();
+        try {
+            ProductoDao dao = new ProductoDao();
+            String txtCodigoProducto = request.getParameter("txtCodigoProducto");
+            String txtNombreProducto = request.getParameter("txtNombreProducto");
+            String txtPrecio = request.getParameter("txtPrecio");
+            String cbxTipoProducto = request.getParameter("cbxTipoProducto");
+            String cbxEstado = request.getParameter("cbxEstado");
+            Producto producto = new Producto();
+            if (!txtCodigoProducto.isEmpty()) {
+                producto = dao.Obtener(txtCodigoProducto);
+            }
+            txtNombreProducto = txtNombreProducto.replaceAll("  ", "");
+            producto.setCodProducto(txtCodigoProducto);
+            producto.setNombre(txtNombreProducto);
+            producto.setPrecio(Double.valueOf(txtPrecio));
+            producto.setCodTipoProducto(dao.ObtenerTipo(cbxTipoProducto));
+            producto.setFlgActivo(Boolean.valueOf(cbxEstado));
+            
+            if (txtCodigoProducto.isEmpty()) {
+                producto.setFechaRegistro(new Date());
+                dao.Insertar(producto);
+            } else {
+                dao.Actualizar(producto);
+            }
+            mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El producto con codigo: " + producto.getCodProducto()+ " fue registrado");
+
+        } catch (Exception e) {
+            mensaje.establecerError(e);
+        }
+        JSONObject jsonMensaje = new JSONObject(mensaje);
+        try {
+            jsonResult.put("msj", jsonMensaje);
+            enviarDatos(response, jsonResult.toString());
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void obtenerProd(HttpServletRequest request, HttpServletResponse response) {
+         JSONObject jsonResult = new JSONObject();
+        Mensaje mensaje = new Mensaje();
+        try {
+            String codigo = request.getParameter("codigo");
+            ProductoDao dao = new ProductoDao();
+            Producto p  = dao.Obtener(codigo);
+            JSONObject j = new JSONObject();
+            j.put("codigo", p.getCodProducto());
+            j.put("nombre", p.getNombre());
+            j.put("precio", p.getPrecio());
+            j.put("codTipo", p.getCodTipoProducto().getCodTipoProducto());
+            j.put("estado", p.getFlgActivo());
+            jsonResult.put("producto", j);
+        } catch (Exception e) {
+            mensaje.establecerError(e);
+        }
+        JSONObject jsonMensaje = new JSONObject(mensaje);
+        try {
+            jsonResult.put("msj", jsonMensaje);
             enviarDatos(response, jsonResult.toString());
 
         } catch (Exception e) {

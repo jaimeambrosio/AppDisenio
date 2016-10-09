@@ -11,6 +11,7 @@ import dis.sede.entity.Distrito;
 import dis.sede.entity.Sede;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -81,6 +82,21 @@ public class SedeDao implements BaseDao<Sede, String> {
             return null;
         }
 
+    }
+
+    public List<Sede> buscar(String txtCodigo, String txtNombreSede, String estado) {
+        String s = "SELECT s FROM Sede s WHERE  s.flgActivo = :est ";
+        s += txtCodigo.isEmpty() ? "" : " AND s.codSede = :cod";
+        s += txtNombreSede.isEmpty() ? "" : " AND s.nombreSede LIKE :nom";
+        Query q = em.createQuery(s);
+        q.setParameter("est", Boolean.valueOf(estado));
+        if (!txtCodigo.isEmpty()) {
+            q.setParameter("cod", txtCodigo.trim());
+        }
+        if (!txtNombreSede.isEmpty()) {
+            q.setParameter("nom", "%" + txtNombreSede.trim() + "%");
+        }
+        return q.getResultList();
     }
 
 }

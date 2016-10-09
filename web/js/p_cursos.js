@@ -1,7 +1,7 @@
 var tblCursos;
 function p_cursos()
 {
-    tblCursos = $('#tblCursos').DataTable({responsive: true});
+    tblCursos = $('#tblCursos').DataTable(glbOptionsDataTable);
     $('#idFormBusqCurso').ajaxForm({
         url: "../cursoServlet?accion=BUSQ",
         type: "post",
@@ -31,7 +31,7 @@ function p_cursos()
                     tbody += "</tr>";
                 }
                 $('#tblCursos tbody').html(tbody);
-                tblCursos = $('#tblCursos').DataTable({responsive: true});
+                tblCursos = $('#tblCursos').DataTable(glbOptionsDataTable);
                 NProgress.done();
             }
         },

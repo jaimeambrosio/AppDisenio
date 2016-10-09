@@ -138,7 +138,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Precio </label>
-                                        <input  class="form-control" id="txtPrecio" name="txtPrecio" step="0.01" min="1" max="5000" required="" >
+                                        <input  class="form-control" id="txtPrecio" name="txtPrecio"  min="1" max="5000" type="number" required="" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">

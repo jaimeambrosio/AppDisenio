@@ -102,7 +102,8 @@ public class sedeServlet extends HttpServlet {
         String estado = request.getParameter("estado");
         try {
             SedeDao sedeDao = new SedeDao();
-            List<Sede> list = sedeDao.listar();
+            //List<Sede> list = sedeDao.listar();
+            List<Sede> list = sedeDao.buscar(txtCodigo,txtNombreSede,estado);
             JSONArray jsonFil = new JSONArray();
             JSONArray jsonCol = null;
             if (list != null) {
