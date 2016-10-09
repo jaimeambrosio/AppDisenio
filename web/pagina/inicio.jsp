@@ -58,7 +58,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="#"><span class="glyphicon glyphicon-file" ></span> Producto</a>
+                                    <a href="#" data-link="paneles/p_producto.jsp" data-constructor="p_producto();" ><span class="glyphicon glyphicon-file" ></span> Producto</a>
                                     <ul class="nav nav-second-level"></ul>
 
                                 </li>
@@ -106,5 +106,6 @@
         <script src="../js/p_usuarios.js" type="text/javascript"></script>
         <script src="../js/p_cursos.js" type="text/javascript"></script>
         <script src="../js/p_sede.js" type="text/javascript"></script>
+        <script src="../js/p_producto.js" type="text/javascript"></script>
     </body>
 </html>

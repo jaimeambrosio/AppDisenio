@@ -4,13 +4,14 @@
     Author     : Jaime Ambrosio
 --%>
 
+
 <%@page import="java.util.List"%>
-<%@page import="dis.curso.entity.Carrera"%>
-<%@page import="dis.curso.dao.CursoDao"%>
+<%@page import="dis.producto.dao.ProductoDao"%>
+<%@page import="dis.producto.entity.Tipoproducto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    CursoDao cursoDao = new CursoDao();
-    List<Carrera> listCarr = cursoDao.listarCarrera();
+    ProductoDao productoDao = new ProductoDao();
+    List<Tipoproducto> listTipo = productoDao.listarTiposProd();
 %>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -19,9 +20,9 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
-                <button onclick="openModalCurso(true);" type="button" class="btn btn-default btn-block">
+                <button onclick="openModalProducto(true);" type="button" class="btn btn-default btn-block">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    Nuevo curso
+                    Nuevo Producto
                 </button>
             </div>
             <div class="col-md-4"></div>
@@ -32,22 +33,37 @@
             <div class="col-sm-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form id="idFormBusqCurso"  method="POST">
+                        <form id="idFormBusquedaProducto"  method="POST">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="txtCodigo">Codigo curso</label>
+                                        <label for="txtCodigo">Codigo produto</label>
                                         <input type="text" class="form-control" id="txtCodigo"  name="txtCodigo" placeholder="Codigo">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="txtNombre">Nombre curso</label>
-                                        <input type="text" class="form-control" id="txtNombreSede" name="txtNombreSede" placeholder="Nombre">
+                                        <label for="txtNombre">Nombre producto</label>
+                                        <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="cbxTipo">Tipo producto</label>
+                                        <select  class="form-control" name="cbxTipo" id="cbxTipo">
+                                            <option value="" >Seleccione</option>
+                                            <%if (listTipo != null) {
+                                                    for (Tipoproducto tp : listTipo) {
+                                            %>
+                                            <option value="<%=tp.getCodTipoProducto()%>" ><%=tp.getNombreTipoProd()%></option>
+                                            <%
+                                                    }
+                                                }%>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="estado">Estado</label>
@@ -57,27 +73,29 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                </div>
                                 <div class="col-sm-6">
                                     <br>
-                                    <button id="btnBuscarCurso" type="submit" class="btn btn-primary btn-block">
+                                    <button id="btnBuscarProducto" type="submit" class="btn btn-primary btn-block">
                                         Buscar
                                     </button>
                                 </div>
                             </div>
 
-
-
                         </form>
                     </div>
+
                 </div>
-                <table  id="tblCursos" class="display nowrap" cellspacing="0" width="100%">
+                <table  id="tblProducto" class="display nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Codigo</th>
-                            <th>Nombre curso</th>
-                            <th>Nivel</th>
-                            <th>Cant. creditos</th>
-                            <th>Carrera</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
                             <th>Estado</th>
                             <th>...</th>
                         </tr>
@@ -88,15 +106,16 @@
                 </table>
             </div>
         </div>
-        <div class="modal fade" data-backdrop="false" id="modalEdicionCurso" tabindex="-1" role="dialog" >
+
+        <div class="modal fade" data-backdrop="false" id="modalEdicionProducto" tabindex="-1" role="dialog" >
             <div class="modal-dialog">
                 <div class="modal-content"> 
-                    <form id="idFormCurso" method="POST">
+                    <form id="idFormProducto" method="POST">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title"   >
-                                <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
-                                Curso
+                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                                Producto
                             </h4>
                         </div>
                         <div class="modal-body">
@@ -105,46 +124,41 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label >Codigo </label>
-                                        <input  class="form-control" id="txtCodigoCurso" name="txtCodigoCurso"  value="" readonly="readonly" >
+                                        <input  class="form-control" id="txtCodigoProducto" name="txtCodigoProducto"  value="" readonly="readonly" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="required" >Nombre curso </label>
-                                        <input  class="form-control" id="txtNombreCurso" name="txtNombreCurso"  required="" >
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="required"  >Nivel </label>
-                                        <input  class="form-control" id="txtNivel" name="txtNivel"  value="" required="" type="number" min="1" max="10">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="required" >Creditos </label>
-                                        <input  class="form-control" id="txtCreditos" name="txtCreditos"  required="" type="number" min="1" max="6" >
+                                        <label class="required" >Nombre producto </label>
+                                        <input  class="form-control" id="txtNombreProducto" name="txtNombreProducto"  required="" >
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="required" >Carrera </label>
-                                        <select class="form-control" id="cbxCarrera" name="cbxCarrera"  required="" >
+                                        <label class="required" >Precio </label>
+                                        <input  class="form-control" id="txtPrecio" name="txtPrecio" step="0.01" min="1" max="5000" required="" >
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="required" >Tipo producto </label>
+                                        <select class="form-control" id="cbxTipoProducto" name="cbxTipoProducto"  required="" >
                                             <option value="">Seleccione</option>
-                                            <%if (listCarr != null) {
-                                                    for (Carrera d : listCarr) {
+                                            <%if (listTipo != null) {
+                                                    for (Tipoproducto tp : listTipo) {
                                             %>
-                                            <option value="<%=d.getCodCarrera()%>"><%=d.getNombreCarrera()%></option>
+                                            <option value="<%=tp.getCodTipoProducto()%>" ><%=tp.getNombreTipoProd()%></option>
                                             <%
                                                     }
                                                 }%>
                                         </select>   
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Estado </label>
@@ -153,6 +167,9 @@
                                             <option value="false">Inactivo</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-sm-6">
+
                                 </div>
                             </div>
                             <br>
@@ -167,5 +184,6 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
     </div>
 </div>

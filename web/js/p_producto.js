@@ -1,9 +1,14 @@
-var tblSede;
-function p_sede()
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+var tblProducto;
+function p_producto()
 {
-    tblSede = $('#tblSede').DataTable({responsive: true});
-    $('#idFormBusquedaSede').ajaxForm({
-        url: "../sedeServlet?accion=BUSQ",
+    tblProducto = $('#tblProducto').DataTable({responsive: true});
+     $('#idFormBusquedaProducto').ajaxForm({
+        url: "../productoServlet?accion=BUSQ",
         type: "post",
         beforeSend: function (jqXHR, settings) {
             NProgress.start();
@@ -38,7 +43,7 @@ function p_sede()
                     "ERROR");
         }
     });
-    $("#idFormSede").validate().resetForm();
+   // $("#idFormSede").validate().resetForm();
     $("#idFormSede .error").removeClass("error");
     $('#idFormSede').ajaxForm({
         url: "../sedeServlet?accion=GUARDAR",
@@ -63,53 +68,8 @@ function p_sede()
                     "ERROR");
         }
     });
-
 }
-
-function openEditarSede(cod)
+function openModalProducto(reestablecer)
 {
-    $.ajax({
-        url: "../sedeServlet?accion=GETSEDE",
-        type: 'POST',
-        data: {
-            codSede: cod
-        },
-        beforeSend: function (xhr) {
-            NProgress.start();
-        },
-        success: function (data) {
-            data = JSON.parse(data);
-            console.log(data);
-            if (data.msj.hayMensaje != true) {
-                $("#idFormSede").validate().resetForm();
-                $("#idFormSede .error").removeClass("error");
-
-                $("#cbxDistrito").val("" + data.sede.codDistrito);
-                $("#txtNombre").val(data.sede.nombreSede);
-                $("#txtCodigoSede").val(data.sede.codSede);
-                $("#txtDescripcion").val(data.sede.descripcion);
-                $("#txtDireccion").val(data.sede.direccion);
-                $("#cbxEstado").val("" + data.sede.estado);
-                openModalSede(false);
-            } else
-            {
-                mostrarModalMensaje(data.msj.mensaje, data.msj.tipo);
-            }
-            NProgress.done();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            mostrarModalMensaje('No se pudo invocar al servidor, probablemente tengas un problema con tu conexion a internet.',
-                    "ERROR");
-            NProgress.done();
-        }
-    });
-}
-function openModalSede(reestablecer)
-{
-    if (reestablecer) {
-        $("#idFormSede").validate().resetForm();
-        $("#idFormSede .error").removeClass("error");
-    }
-
-    $("#modalEdicionSede").modal('show');
+    $('#modalEdicionProducto').modal('show');
 }

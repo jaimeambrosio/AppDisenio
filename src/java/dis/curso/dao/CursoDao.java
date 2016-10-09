@@ -26,12 +26,24 @@ public class CursoDao implements BaseDao<Curso, String> {
 
     @Override
     public void Insertar(Curso entity) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        String[] nombres = entity.getNombreCurso().split(" ");
+        String cod
+                = nombres.length > 1
+                        ? String.valueOf(nombres[0].charAt(0)) + nombres[1].charAt(0)
+                        : nombres[0].substring(0,2);
+        cod += entity.getNivel() + String.format("%02d", listar().size() + 1);
+        entity.setCodCurso(cod.toUpperCase());
+        em.getTransaction().begin();
+        em.persist(entity);
+        em.getTransaction().commit();
     }
 
     @Override
     public void Actualizar(Curso entity) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.getTransaction().begin();
+        em.merge(entity);
+        em.getTransaction().commit();
     }
 
     @Override
@@ -41,12 +53,18 @@ public class CursoDao implements BaseDao<Curso, String> {
 
     @Override
     public Curso Obtener(String id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.find(Curso.class, id);
+
     }
 
     @Override
     public List<Curso> listar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return em.createQuery("SELECT c FROM Curso c").getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     public List<Carrera> listarCarrera() {
