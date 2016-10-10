@@ -92,7 +92,6 @@ function openEditarCurso(cod) {
         },
         success: function (data) {
             data = JSON.parse(data);
-            console.log(data);
             if (data.msj.hayMensaje != true) {
                 $("#idFormCurso").validate().resetForm();
                 $("#idFormCurso .error").removeClass("error");

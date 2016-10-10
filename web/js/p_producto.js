@@ -85,7 +85,6 @@ function openEditarProducto(cod)
         },
         success: function (data) {
             data = JSON.parse(data);
-            console.log(data);
             if (data.msj.hayMensaje != true) {
                 $("#idFormProducto").validate().resetForm();
                 $("#idFormProducto .error").removeClass("error");

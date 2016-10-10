@@ -11,7 +11,6 @@ $().ready(function () {
         },
         success: function (data) {
             data = JSON.parse(data);
-            console.log(data);
             if (data.msj.hayMensaje == true) {
                 mostrarModalMensaje(data.msj.mensaje, data.msj.tipo);
                 NProgress.done();

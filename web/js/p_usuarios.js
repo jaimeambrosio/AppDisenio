@@ -6,7 +6,6 @@ function p_usuarios()
 
         var fecha = new Date(value);
         var anios = (new Date().getTime() - fecha.getTime()) / (1000 * 60 * 60 * 24 * 365);
-        // console.log(anios)
         return anios >= 18;
 
     }, "EL usuario tiene que ser mayor de edad");
@@ -30,7 +29,6 @@ function p_usuarios()
             } else
             {
                 var fil = data.list;
-                console.log(fil);
                 var tbody = "";
                 tblUsuarios.destroy();
                 for (var i = 0; i < fil.length; ++i) {
@@ -101,7 +99,6 @@ function openEditarUsuarioById(codUsuario)
         success: function (data) {
             data = JSON.parse(data);
             if (data.msj.hayMensaje != true) {
-                console.log(data);
                 reestablecerFormUsuario();
                 $("#txtCodigo").val(data.usuario.codUsuario);
                 $("#txtNombre").val(data.usuario.nombre);

@@ -81,7 +81,6 @@ function openEditarSede(cod)
         },
         success: function (data) {
             data = JSON.parse(data);
-            console.log(data);
             if (data.msj.hayMensaje != true) {
                 $("#idFormSede").validate().resetForm();
                 $("#idFormSede .error").removeClass("error");

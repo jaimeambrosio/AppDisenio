@@ -38,7 +38,6 @@ function TrimToInput()
     $("input").each(function () {
         if ($(this).attr("type") !== "password") {
             $(this).blur(function () {
-                console.log($(this));
                 var input = $(this);
                 if (input.val() != undefined)
                     input.val(input.val().trim());
