@@ -124,13 +124,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label >Codigo </label>
-                                        <input  class="form-control" id="txtCodigoProducto" name="txtCodigoProducto"  value="" readonly="readonly" >
+                                        <input  type="text"   class="form-control" id="txtCodigoProducto" name="txtCodigoProducto"  value="" readonly="readonly" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombre producto </label>
-                                        <input  class="form-control" id="txtNombreProducto" name="txtNombreProducto"  required="" >
+                                        <input  type="text"  class="form-control" id="txtNombreProducto" name="txtNombreProducto"  required="" >
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,7 @@
 var tblSede;
 function p_sede()
 {
+    TrimToInput();
     tblSede = $('#tblSede').DataTable(glbOptionsDataTable);
     $('#idFormBusquedaSede').ajaxForm({
         url: "../sedeServlet?accion=BUSQ",
@@ -45,6 +46,7 @@ function p_sede()
         type: "post",
         beforeSend: function (jqXHR, settings) {
             NProgress.start();
+
         },
         success: function (data) {
             data = JSON.parse(data);

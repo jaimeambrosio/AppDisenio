@@ -9,7 +9,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
+        <link rel="icon" type="image/ico" href="/AppDisenio/img/icon.ico" />
         <title>Ingresar al sistema</title>
         <%@include file="../plantilla/contenedor-css.jsp" %>
     </head>

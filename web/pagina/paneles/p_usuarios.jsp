@@ -126,13 +126,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label >Codigo </label>
-                                        <input  class="form-control" id="txtCodigo" name="txtCodigo"  value="" readonly="readonly" >
+                                        <input  type="text"  class="form-control" id="txtCodigo" name="txtCodigo"  value="" readonly="readonly" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombres </label>
-                                        <input  class="form-control" id="txtNombre" name="txtNombre"  required="" >
+                                        <input  type="text"  class="form-control" id="txtNombre" name="txtNombre"  required="" >
                                     </div>
                                 </div>
                             </div>
@@ -140,13 +140,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Apellidos </label>
-                                        <input  class="form-control" id="txtApellido" name="txtApellido"  required="" >
+                                        <input  type="text"  class="form-control" id="txtApellido" name="txtApellido"  required="" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >DNI </label>
-                                        <input  class="form-control" id="txtDNI" name="txtDNI"  required="" minlength="8" maxlength="8" >
+                                        <input   type="text" class="form-control" id="txtDNI" name="txtDNI"  required="" minlength="8" maxlength="8" >
                                     </div>
                                 </div>
                             </div>

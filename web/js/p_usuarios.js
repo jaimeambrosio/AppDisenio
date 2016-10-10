@@ -1,6 +1,7 @@
 var tblUsuarios;
 function p_usuarios()
 {
+    TrimToInput();
     $.validator.addMethod("validFecha", function (value, element) {
 
         var fecha = new Date(value);

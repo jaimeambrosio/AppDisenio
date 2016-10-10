@@ -2,7 +2,7 @@ $().ready(function () {
     NProgress.configure({showSpinner: false});
     NProgress.start();
     $("#idFormLogin").validate();
-
+    TrimToInput();
     $('#idFormLogin').ajaxForm({
         url: "../usuarioServlet?accion=LOGIN",
         type: "post",
@@ -25,7 +25,7 @@ $().ready(function () {
         error: function (e) {
             mostrarModalMensaje('No se pudo establecer la sesion, probablemente tengas un problema con tu conexion a internet.',
                     "ERROR");
-                     NProgress.done();
+            NProgress.done();
         }
     });
 

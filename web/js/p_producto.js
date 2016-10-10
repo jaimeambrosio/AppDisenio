@@ -6,6 +6,7 @@
 var tblProducto;
 function p_producto()
 {
+    TrimToInput();
     tblProducto = $('#tblProducto').DataTable(glbOptionsDataTable);
     $('#idFormBusquedaProducto').ajaxForm({
         url: "../productoServlet?accion=BUSQ",

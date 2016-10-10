@@ -42,7 +42,7 @@ var glbOptionsDataTable = {
         "infoEmpty": "No hay registros disponibles",
         "infoFiltered": "(filtrado de _MAX_ registros)",
         "search": "Buscar",
-        "emptyTable": "No hay datos disponibles en la tabla",
+        "emptyTable": "Tabla sin registros.",
         "paginate": {
             "first": "Primero",
             "last": "Ultimo",
@@ -145,7 +145,8 @@ $().ready(function () {
         }
     });
     configureMenu();
-    $("#pUsuarios").click();
+    TrimToInput();
+    $("#pCursos").click();
 });
 
 

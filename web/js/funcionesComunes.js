@@ -20,7 +20,7 @@ function mostrarModalMensaje(mensaje, tipo)
         $("#modalMensajesIconWarning").show();
         $("#modalMensajeTitle").html(titulo);
     }
-    $("#modalMensajesCuerpo").html(mensaje); 
+    $("#modalMensajesCuerpo").html(mensaje);
     $('#modalMensajes').modal('show');
 }
 
@@ -29,7 +29,20 @@ function prueba() {
 }
 
 
-function cargarCombo(idCombo,url)
+function cargarCombo(idCombo, url)
 {
-    
+
+}
+function TrimToInput()
+{
+    $("input").each(function () {
+        if ($(this).attr("type") !== "password") {
+            $(this).blur(function () {
+                console.log($(this));
+                var input = $(this);
+                if (input.val() != undefined)
+                    input.val(input.val().trim());
+            });
+        }
+    });
 }

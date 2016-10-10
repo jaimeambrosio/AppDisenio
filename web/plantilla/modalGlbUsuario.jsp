@@ -37,13 +37,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label >Codigo </label>
-                                <input  class="form-control" id="txtGlbCodigo" name="txtGlbCodigo"  value="" readonly="readonly" >
+                                <input  type="text"   class="form-control" id="txtGlbCodigo" name="txtGlbCodigo"  value="" readonly="readonly" >
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="required" >Nombres </label>
-                                <input  class="form-control" id="txtGlbNombre" name="txtGlbNombre"  required="" >
+                                <input  type="text"  class="form-control" id="txtGlbNombre" name="txtGlbNombre"  required="" >
                             </div>
                         </div>
                     </div>
@@ -51,13 +51,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="required" >Apellidos </label>
-                                <input  class="form-control" id="txtGlbApellido" name="txtGlbApellido"  required="" >
+                                <input  type="text"  class="form-control" id="txtGlbApellido" name="txtGlbApellido"  required="" >
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="required" >DNI </label>
-                                <input  class="form-control" id="txtGlbDNI" name="txtGlbDNI"  required="" minlength="8" maxlength="8" >
+                                <input  type="text"  class="form-control" id="txtGlbDNI" name="txtGlbDNI"  required="" minlength="8" maxlength="8" >
                             </div>
                         </div>
                     </div>

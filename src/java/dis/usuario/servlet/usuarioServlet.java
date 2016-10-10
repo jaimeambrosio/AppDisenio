@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -310,7 +311,7 @@ public class usuarioServlet extends HttpServlet {
     private void guardarUsuario(HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonResult = new JSONObject();
         Mensaje mensaje = new Mensaje();
-
+        Map<String, String[]> map = request.getParameterMap();
         try {
             UsuarioDao usuarioDao = new UsuarioDao();
             String txtCodigo = request.getParameter("txtCodigo");
@@ -468,7 +469,7 @@ public class usuarioServlet extends HttpServlet {
             usuarioLogeado.setContrasenia(txtGlbContrasenia);
 
             usuarioDao.Actualizar(usuarioLogeado);
-            
+
             mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + usuarioLogeado.getCodUsuario());
         } catch (Exception e) {
             mensaje.establecerError(e);

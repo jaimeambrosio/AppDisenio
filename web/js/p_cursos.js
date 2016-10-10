@@ -1,6 +1,11 @@
 var tblCursos;
 function p_cursos()
 {
+    TrimToInput();
+    if (glbTipoUsuario == 2) {
+        $("#idFormCurso *").attr("disabled", true);
+        $("#idFormCurso .modal-header *").attr("disabled", false);
+    }
     tblCursos = $('#tblCursos').DataTable(glbOptionsDataTable);
     $('#idFormBusqCurso').ajaxForm({
         url: "../cursoServlet?accion=BUSQ",
@@ -93,12 +98,12 @@ function openEditarCurso(cod) {
                 $("#idFormCurso .error").removeClass("error");
 
                 $("#txtCodigoCurso").val(data.curso.cod);
-                $("#txtNombreCurso").val(data.curso.nombre  );
+                $("#txtNombreCurso").val(data.curso.nombre);
                 $("#txtNivel").val(data.curso.nivel);
                 $("#txtCreditos").val(data.curso.creditos);
                 $("#cbxCarrera").val(data.curso.codCarr);
                 $("#cbxEstado").val(data.curso.estado);
-                
+
                 openModalCurso(false);
             } else
             {
