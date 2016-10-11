@@ -35,7 +35,7 @@ public class SedeDao implements BaseDao<Sede, String> {
         } else {
             cod += nombres[0].charAt(1) + "";
         }
-        entity.setCodSede(cod);
+        entity.setCodSede(cod.toUpperCase());
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();
