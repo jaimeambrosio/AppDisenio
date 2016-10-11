@@ -111,7 +111,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombre curso </label>
-                                        <input type="text"   class="form-control" id="txtNombreCurso" name="txtNombreCurso"  required="" >
+                                        <input  minlength="3" type="text"   class="form-control" id="txtNombreCurso" name="txtNombreCurso"  required="" >
                                     </div>
                                 </div>
                             </div>

@@ -39,8 +39,14 @@ function TrimToInput()
         if ($(this).attr("type") !== "password") {
             $(this).blur(function () {
                 var input = $(this);
-                if (input.val() != undefined)
-                    input.val(input.val().trim());
+                if (input.val() !== undefined) {
+                    var t = input.val().trim();
+                    do {
+                        t = t.replace("  ", " ");
+                    } while (t.indexOf("  ") > -1);
+                    input.val(t);
+                }
+
             });
         }
     });

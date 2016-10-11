@@ -110,7 +110,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombre sede </label>
-                                        <input  type="text"  class="form-control" id="txtNombre" name="txtNombre"  required="" >
+                                        <input  minlength="3"  type="text"  class="form-control" id="txtNombre" name="txtNombre"  required="" >
                                     </div>
                                 </div>
                             </div>
@@ -118,13 +118,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required"  >Dirección </label>
-                                        <input  type="text"  class="form-control" id="txtDireccion" name="txtDireccion"  value="" required="" >
+                                        <input  minlength="10"  type="text"  class="form-control" id="txtDireccion" name="txtDireccion"  value="" required="" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="required" >Descripción </label>
-                                        <input  type="text"  class="form-control" id="txtDescripcion" name="txtDescripcion"  required="" >
+                                        <label  >Descripción </label>
+                                        <textarea    type="text"  class="form-control" id="txtDescripcion" name="txtDescripcion"  ></textarea>
                                     </div>
                                 </div>
                             </div>

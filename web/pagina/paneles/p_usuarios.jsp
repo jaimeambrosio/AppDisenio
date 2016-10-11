@@ -132,7 +132,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombres </label>
-                                        <input  type="text"  class="form-control" id="txtNombre" name="txtNombre"  required="" >
+                                        <input minlength="3" type="text"  class="form-control" id="txtNombre" name="txtNombre"  required="" >
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Apellidos </label>
-                                        <input  type="text"  class="form-control" id="txtApellido" name="txtApellido"  required="" >
+                                        <input  minlength="3" type="text"  class="form-control" id="txtApellido" name="txtApellido"  required="" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -224,7 +224,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="required" >Colegio Procedencia </label>
-                                            <input type="text" class="form-control" id="txtColegioProc" name="txtColegioProc"  required="" >
+                                            <input  minlength="3"  type="text" class="form-control" id="txtColegioProc" name="txtColegioProc"  required="" >
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
