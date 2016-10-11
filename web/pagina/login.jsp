@@ -38,8 +38,8 @@
                                     <label class="required">Contraseña</label>
                                     <input type="password" name="txtContrasenia" id="txtContrasenia" value="12345" class="form-control"  placeholder="Contraseña" required>
                                 </div>
-
-                                <div class="form-group">
+                                <br>
+                                <div class="form-group" style="display: none">
                                     <div class="checkbox">
                                         <label>
                                             <input name="txtRecordarP" id="txtRecordarP" type="checkbox" checked=""> Recordar contraseña

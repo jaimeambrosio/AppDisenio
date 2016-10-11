@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -127,11 +128,12 @@ public class usuarioServlet extends HttpServlet {
     }// </editor-fold>
 
     private void validarUsuario(HttpServletRequest request, HttpServletResponse response) {
+        
         JSONObject jsonResult = new JSONObject();
         Mensaje mensaje = new Mensaje();
         String codigo = request.getParameter("txtCodUsuario").trim();
         String pass = request.getParameter("txtContrasenia").trim();
-        boolean recordar = request.getParameter("txtRecordarP") == null;
+     //   boolean recordar = request.getParameter("txtRecordarP") == null;
         try {
             UsuarioDao usuarioDao = new UsuarioDao();
 
@@ -199,6 +201,8 @@ public class usuarioServlet extends HttpServlet {
         try {
             jsonResult.put("msj", jsonMensaje);
             jsonResult.put("url", "inicio.jsp");
+            Cookie c = new Cookie("nombre", "valor1111");
+            response.addCookie(c); 
             enviarDatos(response, jsonResult.toString());
 
         } catch (Exception e) {

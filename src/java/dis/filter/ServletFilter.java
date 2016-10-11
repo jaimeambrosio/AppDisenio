@@ -26,29 +26,28 @@ import javax.servlet.http.HttpSession;
 public class ServletFilter implements Filter {
 
     public ServletFilter() {
-    }    
+    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-     
+
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-         if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
+        if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
             HttpServletRequest requestTemp = (HttpServletRequest) request;
             HttpServletResponse responseTemp = (HttpServletResponse) response;
             HttpSession session = requestTemp.getSession(false);
             String requestPath = requestTemp.getRequestURI();
             if (requestPath.contains("inicio.jsp")) {
                 if (session != null && session.getAttribute("usuarioLogeado") != null) {
-                     chain.doFilter(request, response);
-                }else{
+                    chain.doFilter(request, response);
+                } else {
                     responseTemp.sendRedirect("login.jsp");
                 }
-            }else
-            {
-                 chain.doFilter(request, response);
+            } else {
+                chain.doFilter(request, response);
             }
         }
     }
@@ -56,6 +55,5 @@ public class ServletFilter implements Filter {
     @Override
     public void destroy() {
     }
-    
-    
+
 }
