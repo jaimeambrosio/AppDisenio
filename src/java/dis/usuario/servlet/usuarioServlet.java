@@ -136,51 +136,56 @@ public class usuarioServlet extends HttpServlet {
             UsuarioDao usuarioDao = new UsuarioDao();
 
             Usuario u = usuarioDao.Obtener(codigo);
+
             if (u != null) {
-                Date date = u.getFechaHoraBloqueo();
-                if (date != null) {
-                    Date hoy = new Date();
-                    long minutosPasaron = (hoy.getTime() - date.getTime()) / tiempoBloq;
-                    if (minutosPasaron > cantTiempoBloq) {
-                        u.setCantErrorIngreso(0);
-                        u.setFechaHoraBloqueo(null);
-                        if (u.getContrasenia().equals(pass)) {
-                            HttpSession session = request.getSession(true);
-                            session.setMaxInactiveInterval(60 * 60 * 2);
-                            session.setAttribute("usuarioLogeado", u);
-                            mensaje.setHayMensaje(false);
-                        } else {
-                            Integer cant = u.getCantErrorIngreso() == null ? 0 : u.getCantErrorIngreso();
-                            u.setCantErrorIngreso(cant + 1);
-                            if (u.getCantErrorIngreso() >= 3) {
-                                mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos porque ingreso tres veces su contraseña de manera incorrecta.");
-                                u.setFechaHoraBloqueo(new Date());
+                if (!u.getFlgActivo()) {
+                    mensaje.setMensaje(Mensaje.INFORMACION, "Lo sentimos, actualmente te encuentras inhabilitado para ingresar al sistema. Por favor, contacta al administrador.");
+                } else {
+                    Date date = u.getFechaHoraBloqueo();
+                    if (date != null) {
+                        Date hoy = new Date();
+                        long minutosPasaron = (hoy.getTime() - date.getTime()) / tiempoBloq;
+                        if (minutosPasaron > cantTiempoBloq) {
+                            u.setCantErrorIngreso(0);
+                            u.setFechaHoraBloqueo(null);
+                            if (u.getContrasenia().equals(pass)) {
+                                HttpSession session = request.getSession(true);
+                                session.setMaxInactiveInterval(60 * 60 * 2);
+                                session.setAttribute("usuarioLogeado", u);
+                                mensaje.setHayMensaje(false);
                             } else {
-                                mensaje.setMensaje(Mensaje.INFORMACION, "El usuario o contraseña no coinciden. Recuerde que en el tercer intento erroneo se bloqueara su cuenta por 30 minutos.");
+                                Integer cant = u.getCantErrorIngreso() == null ? 0 : u.getCantErrorIngreso();
+                                u.setCantErrorIngreso(cant + 1);
+                                if (u.getCantErrorIngreso() >= 3) {
+                                    mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos porque ingreso tres veces su contraseña de manera incorrecta.");
+                                    u.setFechaHoraBloqueo(new Date());
+                                } else {
+                                    mensaje.setMensaje(Mensaje.INFORMACION, "El usuario o contraseña no coinciden. Recuerde que en el tercer intento erroneo se bloqueara su cuenta por 30 minutos.");
+                                }
                             }
+                            usuarioDao.Actualizar(u);
+
+                        } else {
+                            mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos. Espere "
+                                    + (cantTiempoBloq - minutosPasaron)
+                                    + " minutos para volver a ingresar.");
+                        }
+                    } else if (u.getContrasenia().equals(pass)) {
+                        HttpSession session = request.getSession(true);
+                        session.setMaxInactiveInterval(60 * 60 * 2);
+                        session.setAttribute("usuarioLogeado", u);
+                        mensaje.setHayMensaje(false);
+                    } else {
+                        Integer cant = u.getCantErrorIngreso() == null ? 0 : u.getCantErrorIngreso();
+                        u.setCantErrorIngreso(cant + 1);
+                        if (u.getCantErrorIngreso() >= 3) {
+                            mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos porque ingreso tres veces su contraseña de manera incorrecta.");
+                            u.setFechaHoraBloqueo(new Date());
+                        } else {
+                            mensaje.setMensaje(Mensaje.INFORMACION, "El usuario o contraseña no coinciden. Recuerde que en el tercer intento erroneo se bloqueara su cuenta por 30 minutos.");
                         }
                         usuarioDao.Actualizar(u);
-
-                    } else {
-                        mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos. Espere "
-                                + (cantTiempoBloq - minutosPasaron)
-                                + " minutos para volver a ingresar.");
                     }
-                } else if (u.getContrasenia().equals(pass)) {
-                    HttpSession session = request.getSession(true);
-                    session.setMaxInactiveInterval(60 * 60 * 2);
-                    session.setAttribute("usuarioLogeado", u);
-                    mensaje.setHayMensaje(false);
-                } else {
-                    Integer cant = u.getCantErrorIngreso() == null ? 0 : u.getCantErrorIngreso();
-                    u.setCantErrorIngreso(cant + 1);
-                    if (u.getCantErrorIngreso() >= 3) {
-                        mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos porque ingreso tres veces su contraseña de manera incorrecta.");
-                        u.setFechaHoraBloqueo(new Date());
-                    } else {
-                        mensaje.setMensaje(Mensaje.INFORMACION, "El usuario o contraseña no coinciden. Recuerde que en el tercer intento erroneo se bloqueara su cuenta por 30 minutos.");
-                    }
-                    usuarioDao.Actualizar(u);
                 }
             } else {
                 mensaje.setMensaje(Mensaje.INFORMACION, "El usuario o contraseña no coinciden. Intentelo de nuevo.");
