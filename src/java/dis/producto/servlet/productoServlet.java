@@ -10,6 +10,7 @@ import dis.producto.dao.ProductoDao;
 import dis.producto.entity.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -164,10 +165,13 @@ public class productoServlet extends HttpServlet {
             if (txtCodigoProducto.isEmpty()) {
                 producto.setFechaRegistro(new Date());
                 dao.Insertar(producto);
+                mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El producto con codigo: " + producto.getCodProducto() + " fue registrado");
             } else {
                 dao.Actualizar(producto);
+                mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El producto con codigo: " + producto.getCodProducto() + " fue actualizado");
             }
-            mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El producto con codigo: " + producto.getCodProducto() + " fue registrado");
+            
+            
             
         } catch (Exception e) {
             mensaje.establecerError(e);

@@ -130,7 +130,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombre producto </label>
-                                        <input  minlength="3"  type="text"  class="form-control" id="txtNombreProducto" name="txtNombreProducto"  required="" >
+                                        <input  minlength="3"  maxlength="45" type="text"  class="form-control" id="txtNombreProducto" name="txtNombreProducto"  required="" >
                                     </div>
                                 </div>
                             </div>

@@ -2,17 +2,39 @@ var tblUsuarios;
 function p_usuarios()
 {
     TrimToInput();
-    $.validator.addMethod("validFecha", function (value, element) {
+    $.validator.addMethod("validDNI", function (value, element) {
 
-        var fecha = new Date(value);
-        var anios = (new Date().getTime() - fecha.getTime()) / (1000 * 60 * 60 * 24 * 365);
-        return anios >= 18;
+        return value.length === 8 && !isNaN(value);
+    }, "Este campo solo debe tener 8 digitos.");
+    $.validator.addMethod("vSoloText", function (value, element) {
+        for (var i = 0; i < value.length; i++) {
+            var code = value.charCodeAt(i);
+            if (!(code > 64 && code < 91)) {
+                if (!(code > 96 && code < 123)) {
+                    if (code !== 32)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }, "No se permiten numeros o caracteres  especiales.");
+    $.validator.addMethod("vCel", function (value, element) {
+        return value.length === 9 && !isNaN(value);
+    }, "Este campo solo debe tener 9 digitos.");
 
-    }, "EL usuario tiene que ser mayor de edad");
     tblUsuarios = $('#tblUsuarios').DataTable(glbOptionsDataTable);
     $("#idFormUsuarioAdmin").validate({rules: {
-            txtNacimiento: {
-                validFecha: true
+            txtDNI: {
+                validDNI: true
+            },
+            txtNombre: {
+                vSoloText: true
+            },
+            txtApellido: {
+                vSoloText: true
+            },
+            txtCelular: {
+                vCel: true
             }
         }}).resetForm();
     $('#idFormBusquedaUsuarios').ajaxForm({
@@ -51,7 +73,7 @@ function p_usuarios()
         error: function (e) {
             mostrarModalMensaje('No se pudo establecer la sesion, probablemente tengas un problema con tu conexion a internet.',
                     "ERROR");
-                    NProgress.done();
+            NProgress.done();
         }
     });
 
@@ -136,8 +158,17 @@ function openEditarUsuarioById(codUsuario)
 function reestablecerFormUsuario()
 {
     $("#idFormUsuarioAdmin").validate({rules: {
-            txtNacimiento: {
-                validFecha: true
+            txtDNI: {
+                validDNI: true
+            },
+            txtNombre: {
+                vSoloText: true
+            },
+            txtApellido: {
+                vSoloText: true
+            },
+            txtCelular: {
+                vCel: true
             }
         }}).resetForm();
     $("#idFormUsuarioAdmin .error").removeClass("error");

@@ -132,7 +132,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombres </label>
-                                        <input minlength="3" type="text"  class="form-control" id="txtNombre" name="txtNombre"  required="" >
+                                        <input minlength="3" maxlength="45"  type="text"  class="form-control" id="txtNombre" name="txtNombre"  required="" >
                                     </div>
                                 </div>
                             </div>
@@ -140,13 +140,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Apellidos </label>
-                                        <input  minlength="3" type="text"  class="form-control" id="txtApellido" name="txtApellido"  required="" >
+                                        <input  minlength="3" type="text" maxlength="45"  class="form-control" id="txtApellido" name="txtApellido"  required="" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >DNI </label>
-                                        <input   type="text" class="form-control" id="txtDNI" name="txtDNI"  required="" minlength="8" maxlength="8" >
+                                        <input   type="text" class="form-control" id="txtDNI" name="txtDNI"  required=""  maxlength="8" >
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Celular </label>
-                                        <input type="number" max="1000000000"    class="form-control" id="txtCelular" name="txtCelular"  required="" >
+                                        <input type="number"    class="form-control" id="txtCelular" name="txtCelular"  required="" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">

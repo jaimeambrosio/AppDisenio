@@ -1,3 +1,10 @@
+ $.validator.addMethod("validFecha", function (value, element) {
+
+        var fecha = new Date(value);
+        var anios = (new Date().getTime() - fecha.getTime()) / (1000 * 60 * 60 * 24 * 365);
+        return anios >= 18;
+
+    }, "EL usuario tiene que ser mayor de edad");
 mostrarModalMensaje(mensaje, detalle, tipo);
 formatoMontoChange(idInput);
 

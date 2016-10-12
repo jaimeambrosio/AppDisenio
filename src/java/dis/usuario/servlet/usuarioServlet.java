@@ -39,7 +39,7 @@ import org.json.JSONObject;
 public class usuarioServlet extends HttpServlet {
 
     static int tiempoBloq = 1000 * 60;
-    static int cantTiempoBloq = 1;
+    static int cantTiempoBloq = 30;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -168,9 +168,10 @@ public class usuarioServlet extends HttpServlet {
                             usuarioDao.Actualizar(u);
 
                         } else {
-                            mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos. Espere "
-                                    + (cantTiempoBloq - minutosPasaron)
-                                    + " minutos para volver a ingresar.");
+                          //  mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos. Espere "
+                           //         + (cantTiempoBloq - minutosPasaron)
+                           //         + " minutos para volver a ingresar.");
+                           mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos porque ingreso tres veces su contraseña de manera incorrecta.");
                         }
                     } else if (u.getContrasenia().equals(pass)) {
                         HttpSession session = request.getSession(true);
@@ -352,8 +353,10 @@ public class usuarioServlet extends HttpServlet {
             if (txtCodigo.isEmpty()) //nuevo
             {
                 usuarioDao.Insertar(u);
+                 mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
             } else {
                 usuarioDao.Actualizar(u);
+                mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
             }
             CursoDao cursoDao = new CursoDao();
             SedeDao sedeDao = new SedeDao();
@@ -373,8 +376,10 @@ public class usuarioServlet extends HttpServlet {
                 a.setCodSede(s);
                 if (txtCodigo.isEmpty()) {
                     usuarioDao.InsertarALumno(a);
+                     mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
                 } else {
                     usuarioDao.ActualizarAlumno(a);
+                    mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
                 }
             }
             if ("2".equals(txtTipoUsuario)) {
@@ -387,11 +392,14 @@ public class usuarioServlet extends HttpServlet {
                 d.setIsTiempoCompleto(cbTiempoCom != null);
                 if (txtCodigo.isEmpty()) {
                     usuarioDao.InsertarDocente(d);
+                     mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
                 } else {
                     usuarioDao.ActualizarDocente(d);
+                    mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
                 }
             }
-            mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+           
+            
         } catch (Exception e) {
             mensaje.establecerError(e);
         }

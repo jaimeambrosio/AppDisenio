@@ -33,6 +33,8 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
 
     @Override
     public void Insertar(Usuario entity) throws Exception {
+        entity.setNombre(entity.getNombre().toUpperCase());
+        entity.setApellido(entity.getApellido().toUpperCase());
         String cod = null;
         if (entity.getCodTipoUsuario().getCodTipoUsuario() == 3) {
             Calendar c = new GregorianCalendar();
@@ -79,6 +81,8 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
 
     @Override
     public void Actualizar(Usuario entity) throws Exception {
+        entity.setNombre(entity.getNombre().toUpperCase());
+        entity.setApellido(entity.getApellido().toUpperCase());
         em.getTransaction().begin();
         em.merge(entity);
         em.getTransaction().commit();
@@ -86,7 +90,7 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
 
     @Override
     public void Eliminar(String id) throws Exception {
-       
+
     }
 
     @Override

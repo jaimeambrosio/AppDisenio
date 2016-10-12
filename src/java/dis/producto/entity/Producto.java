@@ -6,6 +6,7 @@
 package dis.producto.entity;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -83,7 +84,8 @@ public class Producto implements Serializable {
     }
 
     public void setPrecio(Double precio) {
-        this.precio = precio;
+
+        this.precio = Math.round(precio * 100.0) / 100.0;
     }
 
     public Date getFechaRegistro() {
@@ -134,5 +136,5 @@ public class Producto implements Serializable {
     public String toString() {
         return "dis.curso.entity.Producto[ codProducto=" + codProducto + " ]";
     }
-    
+
 }
