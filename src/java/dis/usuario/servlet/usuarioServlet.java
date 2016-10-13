@@ -128,12 +128,12 @@ public class usuarioServlet extends HttpServlet {
     }// </editor-fold>
 
     private void validarUsuario(HttpServletRequest request, HttpServletResponse response) {
-        
+
         JSONObject jsonResult = new JSONObject();
         Mensaje mensaje = new Mensaje();
         String codigo = request.getParameter("txtCodUsuario").trim();
         String pass = request.getParameter("txtContrasenia").trim();
-     //   boolean recordar = request.getParameter("txtRecordarP") == null;
+        //   boolean recordar = request.getParameter("txtRecordarP") == null;
         try {
             UsuarioDao usuarioDao = new UsuarioDao();
 
@@ -168,10 +168,10 @@ public class usuarioServlet extends HttpServlet {
                             usuarioDao.Actualizar(u);
 
                         } else {
-                          //  mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos. Espere "
-                           //         + (cantTiempoBloq - minutosPasaron)
-                           //         + " minutos para volver a ingresar.");
-                           mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos porque ingreso tres veces su contraseña de manera incorrecta.");
+                            //  mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos. Espere "
+                            //         + (cantTiempoBloq - minutosPasaron)
+                            //         + " minutos para volver a ingresar.");
+                            mensaje.setMensaje(Mensaje.ERROR, "Su cuenta ha sido bloqueada por 30 minutos porque ingreso tres veces su contraseña de manera incorrecta.");
                         }
                     } else if (u.getContrasenia().equals(pass)) {
                         HttpSession session = request.getSession(true);
@@ -203,7 +203,7 @@ public class usuarioServlet extends HttpServlet {
             jsonResult.put("msj", jsonMensaje);
             jsonResult.put("url", "inicio.jsp");
             Cookie c = new Cookie("nombre", "valor1111");
-            response.addCookie(c); 
+            response.addCookie(c);
             enviarDatos(response, jsonResult.toString());
 
         } catch (Exception e) {
@@ -350,56 +350,59 @@ public class usuarioServlet extends HttpServlet {
             u.setFlgActivo(Boolean.parseBoolean(cbxEstado));
             Tipousuario t = usuarioDao.ObtenerTipo(txtTipoUsuario);
             u.setCodTipoUsuario(t);
-            if (txtCodigo.isEmpty()) //nuevo
-            {
-                usuarioDao.Insertar(u);
-                 mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+            if (!usuarioDao.existeDni(u)) {
+                if (txtCodigo.isEmpty()) //nuevo
+                {
+                    usuarioDao.Insertar(u);
+                    mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+                } else {
+                    usuarioDao.Actualizar(u);
+                    mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
+                }
+                CursoDao cursoDao = new CursoDao();
+                SedeDao sedeDao = new SedeDao();
+                if ("3".equals(txtTipoUsuario)) {
+                    String txtColegioProc = request.getParameter("txtColegioProc");
+                    String cbxCarrera = request.getParameter("cbxCarrera");
+                    String cbxSede = request.getParameter("cbxSede");
+                    Carrera c = cursoDao.ObtenerCarrera(Integer.valueOf(cbxCarrera));
+                    Sede s = sedeDao.Obtener(cbxSede);
+                    Alumno a = new Alumno();
+                    if (!txtCodigo.isEmpty()) {
+                        a = usuarioDao.ObtenerAlumno(txtCodigo);
+                    }
+                    a.setCodAlumno(u.getCodUsuario());
+                    a.setColegioProcedencia(txtColegioProc);
+                    a.setCodCarrera(c);
+                    a.setCodSede(s);
+                    if (txtCodigo.isEmpty()) {
+                        usuarioDao.InsertarALumno(a);
+                        mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+                    } else {
+                        usuarioDao.ActualizarAlumno(a);
+                        mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
+                    }
+                }
+                if ("2".equals(txtTipoUsuario)) {
+                    String cbTiempoCom = request.getParameter("cbTiempoCom");
+                    Docente d = new Docente();
+                    if (!txtCodigo.isEmpty()) {
+                        d = usuarioDao.ObtenerDocente(txtCodigo);
+                    }
+                    d.setCodDocente(u.getCodUsuario());
+                    d.setIsTiempoCompleto(cbTiempoCom != null);
+                    if (txtCodigo.isEmpty()) {
+                        usuarioDao.InsertarDocente(d);
+                        mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+                    } else {
+                        usuarioDao.ActualizarDocente(d);
+                        mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
+                    }
+                }
             } else {
-                usuarioDao.Actualizar(u);
-                mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
+                mensaje.setMensaje(Mensaje.ERROR, "El número de DNI se encuentra registrado, ingresar un número distinto.");
             }
-            CursoDao cursoDao = new CursoDao();
-            SedeDao sedeDao = new SedeDao();
-            if ("3".equals(txtTipoUsuario)) {
-                String txtColegioProc = request.getParameter("txtColegioProc");
-                String cbxCarrera = request.getParameter("cbxCarrera");
-                String cbxSede = request.getParameter("cbxSede");
-                Carrera c = cursoDao.ObtenerCarrera(Integer.valueOf(cbxCarrera));
-                Sede s = sedeDao.Obtener(cbxSede);
-                Alumno a = new Alumno();
-                if (!txtCodigo.isEmpty()) {
-                    a = usuarioDao.ObtenerAlumno(txtCodigo);
-                }
-                a.setCodAlumno(u.getCodUsuario());
-                a.setColegioProcedencia(txtColegioProc);
-                a.setCodCarrera(c);
-                a.setCodSede(s);
-                if (txtCodigo.isEmpty()) {
-                    usuarioDao.InsertarALumno(a);
-                     mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
-                } else {
-                    usuarioDao.ActualizarAlumno(a);
-                    mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
-                }
-            }
-            if ("2".equals(txtTipoUsuario)) {
-                String cbTiempoCom = request.getParameter("cbTiempoCom");
-                Docente d = new Docente();
-                if (!txtCodigo.isEmpty()) {
-                    d = usuarioDao.ObtenerDocente(txtCodigo);
-                }
-                d.setCodDocente(u.getCodUsuario());
-                d.setIsTiempoCompleto(cbTiempoCom != null);
-                if (txtCodigo.isEmpty()) {
-                    usuarioDao.InsertarDocente(d);
-                     mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
-                } else {
-                    usuarioDao.ActualizarDocente(d);
-                    mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
-                }
-            }
-           
-            
+
         } catch (Exception e) {
             mensaje.establecerError(e);
         }
@@ -487,7 +490,7 @@ public class usuarioServlet extends HttpServlet {
 
             usuarioDao.Actualizar(usuarioLogeado);
 
-            mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + usuarioLogeado.getCodUsuario());
+            mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + usuarioLogeado.getCodUsuario());
         } catch (Exception e) {
             mensaje.establecerError(e);
         }

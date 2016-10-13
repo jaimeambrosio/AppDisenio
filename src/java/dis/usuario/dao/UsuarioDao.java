@@ -36,27 +36,34 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
         entity.setNombre(entity.getNombre().toUpperCase());
         entity.setApellido(entity.getApellido().toUpperCase());
         String cod = null;
-        if (entity.getCodTipoUsuario().getCodTipoUsuario() == 3) {
-            Calendar c = new GregorianCalendar();
-            c.setTime(new Date());
-            cod = "A" + c.get(Calendar.YEAR);
-            if (c.get(Calendar.MONTH) < 7) {
-                cod += "1";
-            } else {
-                cod += "2";
+        if (null != entity.getCodTipoUsuario().getCodTipoUsuario()) {
+            switch (entity.getCodTipoUsuario().getCodTipoUsuario()) {
+                case 3: //alumno
+                    Calendar c = new GregorianCalendar();
+                    c.setTime(new Date());
+                    cod = "A" + c.get(Calendar.YEAR);
+                    if (c.get(Calendar.MONTH) < 7) {
+                        cod += "1";
+                    } else {
+                        cod += "2";
+                    }
+                    cod += String.format("%04d", listarSoloAlumnos().size() + 1);
+                    break;
+                case 2: //docente
+                    cod = "PC";
+                    cod += entity.getNombre().charAt(0);
+                    cod += entity.getApellido().substring(0, 3);
+                    cod = cod.toUpperCase();
+                    break;
+                case 1:
+                    cod = "AD";
+                    cod += entity.getNombre().charAt(0);
+                    cod += entity.getApellido().substring(0, 3);
+                    cod = cod.toUpperCase();
+                    break;
+                default:
+                    break;
             }
-            cod += String.format("%04d", listarSoloAlumnos().size() + 1);
-
-        } else if (entity.getCodTipoUsuario().getCodTipoUsuario() == 2) {
-            cod = "PC";
-            cod += entity.getNombre().charAt(0);
-            cod += entity.getApellido().substring(0, 3);
-            cod = cod.toUpperCase();
-        } else if (entity.getCodTipoUsuario().getCodTipoUsuario() == 1) {
-            cod = "AD";
-            cod += entity.getNombre().charAt(0);
-            cod += entity.getApellido().substring(0, 3);
-            cod = cod.toUpperCase();
         }
         entity.setCodUsuario(cod);
 
@@ -172,5 +179,14 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
         em.getTransaction().begin();
         em.merge(d);
         em.getTransaction().commit();
+    }
+
+    public boolean existeDni(Usuario u) {
+        String s = "SELECT u FROM Usuario u WHERE NOT(u.codUsuario = :cod) AND u.dni = :dni";
+        Query q = em.createQuery(s);
+        q.setParameter("cod", u.getCodUsuario() == null ? "" : u.getCodUsuario());
+        q.setParameter("dni", u.getDni());
+        List<Usuario> list = q.getResultList();
+        return q.getResultList().size() > 0;
     }
 }

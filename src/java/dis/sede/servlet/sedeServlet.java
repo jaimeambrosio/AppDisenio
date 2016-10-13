@@ -189,10 +189,12 @@ public class sedeServlet extends HttpServlet {
 
             if (txtCodigoSede.isEmpty()) {
                 sedeDao.Insertar(sede);
+                mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. La sede: " + sede.getCodSede() + " fue registrada");
             } else {
                 sedeDao.Actualizar(sede);
+                mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. La sede: " + sede.getCodSede() + " fue actualizada");
             }
-            mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. La sede: " + sede.getCodSede() + " fue registrada");
+            
 
         } catch (Exception e) {
             mensaje.establecerError(e);

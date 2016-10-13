@@ -164,10 +164,12 @@ public class cursoServlet extends HttpServlet {
 
             if (txtCodigoCurso.isEmpty()) {
                 cursoDao.Insertar(curso);
+                 mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El curso con codigo: " + curso.getCodCurso() + " fue registrado");
             } else {
                 cursoDao.Actualizar(curso);
+                 mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El curso con codigo: " + curso.getCodCurso() + " fue actualizado");
             }
-            mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El curso con codigo: " + curso.getCodCurso() + " fue registrado");
+           
 
         } catch (Exception e) {
             mensaje.establecerError(e);

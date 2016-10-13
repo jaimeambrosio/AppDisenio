@@ -24,6 +24,8 @@ function configureMenu() {
                             mostrarModalMensaje('No se pudo encontrar la seccion "' + seccion + '". Asegurate de tener una conexion activa a internet.',
                                     "ERROR");
                         }
+                        if ($('#btnToggleMenu').is(":visible"))
+                            $("#btnToggleMenu").click();
                         NProgress.done();
                     });
                 });

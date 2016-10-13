@@ -111,7 +111,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Nombre curso </label>
-                                        <input  minlength="3" type="text"   class="form-control" id="txtNombreCurso" name="txtNombreCurso"  required="" >
+                                        <input  minlength="3" maxlength="100" type="text"   class="form-control" id="txtNombreCurso" name="txtNombreCurso"  required="" >
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="required" >Creditos </label>
-                                        <input  class="form-control" id="txtCreditos" name="txtCreditos"  required="" type="number" min="1" max="6" >
+                                        <input  class="form-control" id="txtCreditos" name="txtCreditos"  required="" type="number" min="2" max="6" >
                                     </div>
                                 </div>
                             </div>
