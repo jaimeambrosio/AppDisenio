@@ -9,6 +9,7 @@ import dis.curso.entity.Carrera;
 import dis.curso.entity.Curso;
 import dis.dao.BaseDao;
 import dis.dao.ConexionJPA;
+import dis.entity.Mensaje;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -26,18 +27,25 @@ public class CursoDao implements BaseDao<Curso, String> {
     }
 
     @Override
-    public void Insertar(Curso entity) throws Exception {
-
+    public Mensaje Insertar(Curso entity) throws Exception {
+        Mensaje m = new Mensaje();
         String[] nombres = entity.getNombreCurso().split(" ");
         String cod
                 = nombres.length > 1
                         ? String.valueOf(nombres[0].charAt(0)) + nombres[1].charAt(0)
                         : nombres[0].substring(0, 2);
         cod += entity.getNivel() + String.format("%02d", listar().size() + 1);
-        entity.setCodCurso(cod.toUpperCase());
-        em.getTransaction().begin();
-        em.persist(entity);
-        em.getTransaction().commit();
+
+        if (Obtener(cod) == null) {
+            entity.setCodCurso(cod.toUpperCase());
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.getTransaction().commit();
+            return null;
+        } else {
+            m.setMensaje(Mensaje.ERROR, "El codigo generado ya existe: " + cod);
+            return m;
+        }
     }
 
     @Override

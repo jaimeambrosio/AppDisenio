@@ -56,7 +56,7 @@ public class productoServlet extends HttpServlet {
             }
         }
     }
-    
+
     private void enviarDatos(HttpServletResponse response, String datos) throws Exception {
         PrintWriter out = null;
         out = response.getWriter();
@@ -128,7 +128,7 @@ public class productoServlet extends HttpServlet {
                 }
             }
             jsonResult.put("list", jsonFil);
-            
+
         } catch (Exception e) {
             mensaje.establecerError(e);
         }
@@ -140,7 +140,7 @@ public class productoServlet extends HttpServlet {
         } catch (Exception e) {
         }
     }
-    
+
     private void guardarProducto(HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonResult = new JSONObject();
         Mensaje mensaje = new Mensaje();
@@ -161,18 +161,21 @@ public class productoServlet extends HttpServlet {
             producto.setPrecio(Double.valueOf(txtPrecio));
             producto.setCodTipoProducto(dao.ObtenerTipo(cbxTipoProducto));
             producto.setFlgActivo(Boolean.valueOf(cbxEstado));
-            
+
             if (txtCodigoProducto.isEmpty()) {
                 producto.setFechaRegistro(new Date());
-                dao.Insertar(producto);
-                mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El producto con codigo: " + producto.getCodProducto() + " fue registrado");
+                Mensaje m = dao.Insertar(producto);
+                if (m == null) {
+                    mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El producto con codigo: " + producto.getCodProducto() + " fue registrado");
+                } else {
+                    mensaje = m;
+                }
+
             } else {
                 dao.Actualizar(producto);
                 mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. El producto con codigo: " + producto.getCodProducto() + " fue actualizado");
             }
-            
-            
-            
+
         } catch (Exception e) {
             mensaje.establecerError(e);
         }
@@ -180,11 +183,11 @@ public class productoServlet extends HttpServlet {
         try {
             jsonResult.put("msj", jsonMensaje);
             enviarDatos(response, jsonResult.toString());
-            
+
         } catch (Exception e) {
         }
     }
-    
+
     private void obtenerProd(HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonResult = new JSONObject();
         Mensaje mensaje = new Mensaje();
@@ -206,9 +209,9 @@ public class productoServlet extends HttpServlet {
         try {
             jsonResult.put("msj", jsonMensaje);
             enviarDatos(response, jsonResult.toString());
-            
+
         } catch (Exception e) {
         }
     }
-    
+
 }

@@ -5,6 +5,7 @@
  */
 package dis.dao;
 
+import dis.entity.Mensaje;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface BaseDao<E,ID> {
     
-    public void Insertar(E entity)throws Exception;
+    public Mensaje Insertar(E entity)throws Exception;
     public void Actualizar(E entity)throws Exception;
     public void Eliminar(ID id)throws Exception;
     public E Obtener(ID id)throws Exception;

@@ -7,6 +7,10 @@ var tblProducto;
 function p_producto()
 {
     TrimToInput();
+    $.validator.addMethod("validNumber", function (value, element) {
+        return value.indexOf(",") < 0;
+    }, "La separacion decimal debe ser con punto(.)");
+
     tblProducto = $('#tblProducto').DataTable(glbOptionsDataTable);
     $('#idFormBusquedaProducto').ajaxForm({
         url: "../productoServlet?accion=BUSQ",
@@ -46,7 +50,11 @@ function p_producto()
         }
     });
 
-    $("#idFormProducto").validate().resetForm();
+    $("#idFormProducto").validate({rules: {
+            txtDNI: {
+                validNumber: true
+            }
+        }}).resetForm();
     $("#idFormProducto .error").removeClass("error");
     $('#idFormProducto').ajaxForm({
         url: "../productoServlet?accion=GUARDAR",
@@ -86,7 +94,11 @@ function openEditarProducto(cod)
         success: function (data) {
             data = JSON.parse(data);
             if (data.msj.hayMensaje != true) {
-                $("#idFormProducto").validate().resetForm();
+                $("#idFormProducto").validate({rules: {
+                        txtDNI: {
+                            validNumber: true
+                        }
+                    }}).resetForm();
                 $("#idFormProducto .error").removeClass("error");
 
                 $("#txtCodigoProducto").val(data.producto.codigo);
@@ -111,7 +123,11 @@ function openEditarProducto(cod)
 function openModalProducto(reestablecer)
 {
     if (reestablecer) {
-        $("#idFormProducto").validate().resetForm();
+        $("#idFormProducto").validate({rules: {
+                txtDNI: {
+                    validNumber: true
+                }
+            }}).resetForm();
         $("#idFormProducto .error").removeClass("error");
     }
     $('#modalEdicionProducto').modal('show');

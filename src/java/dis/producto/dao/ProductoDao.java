@@ -7,6 +7,7 @@ package dis.producto.dao;
 
 import dis.dao.BaseDao;
 import dis.dao.ConexionJPA;
+import dis.entity.Mensaje;
 import dis.producto.entity.Producto;
 import dis.producto.entity.Tipoproducto;
 import java.util.Calendar;
@@ -29,14 +30,21 @@ public class ProductoDao implements BaseDao<Producto, String> {
     }
 
     @Override
-    public void Insertar(Producto entity) throws Exception {
+    public Mensaje Insertar(Producto entity) throws Exception {
+        Mensaje m = new Mensaje();
         Calendar c = new GregorianCalendar();
         c.setTime(new Date());
         String cod = "P" + c.get(Calendar.YEAR) + String.format("%03d", listar().size() + 1);
-        entity.setCodProducto(cod);
-        em.getTransaction().begin();
-        em.persist(entity);
-        em.getTransaction().commit();
+        if (Obtener(cod) == null) {
+            entity.setCodProducto(cod.toUpperCase());
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.getTransaction().commit();
+            return null;
+        } else {
+            m.setMensaje(Mensaje.ERROR, "El codigo generado ya existe: " + cod);
+            return m;
+        }
     }
 
     @Override

@@ -103,7 +103,7 @@ public class sedeServlet extends HttpServlet {
         try {
             SedeDao sedeDao = new SedeDao();
             //List<Sede> list = sedeDao.listar();
-            List<Sede> list = sedeDao.buscar(txtCodigo,txtNombreSede,estado);
+            List<Sede> list = sedeDao.buscar(txtCodigo, txtNombreSede, estado);
             JSONArray jsonFil = new JSONArray();
             JSONArray jsonCol = null;
             if (list != null) {
@@ -188,13 +188,16 @@ public class sedeServlet extends HttpServlet {
             sede.setFlgActivo(Boolean.parseBoolean(cbxEstado));
 
             if (txtCodigoSede.isEmpty()) {
-                sedeDao.Insertar(sede);
-                mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. La sede: " + sede.getCodSede() + " fue registrada");
+                Mensaje m = sedeDao.Insertar(sede);
+                if (m == null) {
+                    mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. La sede: " + sede.getCodSede() + " fue registrada");
+                } else {
+                    mensaje = m;
+                }
             } else {
                 sedeDao.Actualizar(sede);
                 mensaje.setMensaje(Mensaje.INFORMACION, "Transacción exitosa. La sede: " + sede.getCodSede() + " fue actualizada");
             }
-            
 
         } catch (Exception e) {
             mensaje.establecerError(e);

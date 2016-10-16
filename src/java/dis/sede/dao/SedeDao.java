@@ -7,6 +7,7 @@ package dis.sede.dao;
 
 import dis.dao.BaseDao;
 import dis.dao.ConexionJPA;
+import dis.entity.Mensaje;
 import dis.sede.entity.Distrito;
 import dis.sede.entity.Sede;
 import java.util.List;
@@ -25,8 +26,7 @@ public class SedeDao implements BaseDao<Sede, String> {
         em = ConexionJPA.getEntityManager();
     }
 
-    @Override
-    public void Insertar(Sede entity) throws Exception {
+    public void Insertar2(Sede entity) throws Exception {
 
         String[] nombres = entity.getNombreSede().split(" ");
         String cod = nombres[0].charAt(0) + "";
@@ -35,10 +35,33 @@ public class SedeDao implements BaseDao<Sede, String> {
         } else {
             cod += nombres[0].charAt(1) + "";
         }
+
         entity.setCodSede(cod.toUpperCase());
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();
+    }
+
+    @Override
+    public Mensaje Insertar(Sede entity) throws Exception {
+        Mensaje m = new Mensaje();
+        String[] nombres = entity.getNombreSede().split(" ");
+        String cod = nombres[0].charAt(0) + "";
+        if (nombres.length > 1) {
+            cod += nombres[1].charAt(0) + "";
+        } else {
+            cod += nombres[0].charAt(1) + "";
+        }
+        if (Obtener(cod) == null) {
+            entity.setCodSede(cod.toUpperCase());
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.getTransaction().commit();
+            return null;
+        } else {
+            m.setMensaje(Mensaje.ERROR, "El codigo generado ya existe: " + cod);
+            return m;
+        }
     }
 
     @Override

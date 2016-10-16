@@ -7,6 +7,7 @@ package dis.usuario.dao;
 
 import dis.dao.BaseDao;
 import dis.dao.ConexionJPA;
+import dis.entity.Mensaje;
 import dis.usuario.entity.Alumno;
 import dis.usuario.entity.Docente;
 import dis.usuario.entity.Tipousuario;
@@ -32,7 +33,8 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
     }
 
     @Override
-    public void Insertar(Usuario entity) throws Exception {
+    public Mensaje Insertar(Usuario entity) throws Exception {
+        Mensaje m = new Mensaje();
         entity.setNombre(entity.getNombre().toUpperCase());
         entity.setApellido(entity.getApellido().toUpperCase());
         String cod = null;
@@ -65,11 +67,16 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
                     break;
             }
         }
-        entity.setCodUsuario(cod);
-
-        em.getTransaction().begin();
-        em.persist(entity);
-        em.getTransaction().commit();
+        if (Obtener(cod) == null) {
+            entity.setCodUsuario(cod.toUpperCase());
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.getTransaction().commit();
+            return null;
+        } else {
+            m.setMensaje(Mensaje.ERROR, "El codigo generado ya existe: " + cod);
+            return m;
+        }
     }
 
     public void InsertarALumno(Alumno entity) throws Exception {

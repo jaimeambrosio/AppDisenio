@@ -353,52 +353,59 @@ public class usuarioServlet extends HttpServlet {
             if (!usuarioDao.existeDni(u)) {
                 if (txtCodigo.isEmpty()) //nuevo
                 {
-                    usuarioDao.Insertar(u);
-                    mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+                    Mensaje m = usuarioDao.Insertar(u);
+                    if (m == null) {
+                        mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+                    } else {
+                        mensaje = m;
+                    }
                 } else {
                     usuarioDao.Actualizar(u);
                     mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
                 }
-                CursoDao cursoDao = new CursoDao();
-                SedeDao sedeDao = new SedeDao();
-                if ("3".equals(txtTipoUsuario)) {
-                    String txtColegioProc = request.getParameter("txtColegioProc");
-                    String cbxCarrera = request.getParameter("cbxCarrera");
-                    String cbxSede = request.getParameter("cbxSede");
-                    Carrera c = cursoDao.ObtenerCarrera(Integer.valueOf(cbxCarrera));
-                    Sede s = sedeDao.Obtener(cbxSede);
-                    Alumno a = new Alumno();
-                    if (!txtCodigo.isEmpty()) {
-                        a = usuarioDao.ObtenerAlumno(txtCodigo);
+                if (!Mensaje.ERROR.equals(mensaje.getTipo())) {
+                    CursoDao cursoDao = new CursoDao();
+                    SedeDao sedeDao = new SedeDao();
+                    if ("3".equals(txtTipoUsuario)) {
+                        String txtColegioProc = request.getParameter("txtColegioProc");
+                        String cbxCarrera = request.getParameter("cbxCarrera");
+                        String cbxSede = request.getParameter("cbxSede");
+                        Carrera c = cursoDao.ObtenerCarrera(Integer.valueOf(cbxCarrera));
+                        Sede s = sedeDao.Obtener(cbxSede);
+                        Alumno a = new Alumno();
+                        if (!txtCodigo.isEmpty()) {
+                            a = usuarioDao.ObtenerAlumno(txtCodigo);
+                        }
+                        a.setCodAlumno(u.getCodUsuario());
+                        a.setColegioProcedencia(txtColegioProc);
+                        a.setCodCarrera(c);
+                        a.setCodSede(s);
+                        if (txtCodigo.isEmpty()) {
+                            usuarioDao.InsertarALumno(a);
+                            mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+                        } else {
+                            usuarioDao.ActualizarAlumno(a);
+                            mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
+                        }
                     }
-                    a.setCodAlumno(u.getCodUsuario());
-                    a.setColegioProcedencia(txtColegioProc);
-                    a.setCodCarrera(c);
-                    a.setCodSede(s);
-                    if (txtCodigo.isEmpty()) {
-                        usuarioDao.InsertarALumno(a);
-                        mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
-                    } else {
-                        usuarioDao.ActualizarAlumno(a);
-                        mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
+                    if ("2".equals(txtTipoUsuario)) {
+                        String cbTiempoCom = request.getParameter("cbTiempoCom");
+                        Docente d = new Docente();
+                        if (!txtCodigo.isEmpty()) {
+                            d = usuarioDao.ObtenerDocente(txtCodigo);
+                        }
+                        d.setCodDocente(u.getCodUsuario());
+                        d.setIsTiempoCompleto(cbTiempoCom != null);
+                        if (txtCodigo.isEmpty()) {
+                            usuarioDao.InsertarDocente(d);
+                            mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
+                        } else {
+                            usuarioDao.ActualizarDocente(d);
+                            mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
+                        }
                     }
                 }
-                if ("2".equals(txtTipoUsuario)) {
-                    String cbTiempoCom = request.getParameter("cbTiempoCom");
-                    Docente d = new Docente();
-                    if (!txtCodigo.isEmpty()) {
-                        d = usuarioDao.ObtenerDocente(txtCodigo);
-                    }
-                    d.setCodDocente(u.getCodUsuario());
-                    d.setIsTiempoCompleto(cbTiempoCom != null);
-                    if (txtCodigo.isEmpty()) {
-                        usuarioDao.InsertarDocente(d);
-                        mensaje.setMensaje(Mensaje.INFORMACION, "Se registro correctamente el usuario con codigo: " + u.getCodUsuario());
-                    } else {
-                        usuarioDao.ActualizarDocente(d);
-                        mensaje.setMensaje(Mensaje.INFORMACION, "Se actualizo correctamente el usuario con codigo: " + u.getCodUsuario());
-                    }
-                }
+
             } else {
                 mensaje.setMensaje(Mensaje.ERROR, "El número de DNI se encuentra registrado, ingresar un número distinto.");
             }
