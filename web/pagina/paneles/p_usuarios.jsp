@@ -42,7 +42,7 @@
             <div class="col-md-4">
                 <button onclick="openModalUsuario(3, true);" type="button" class="btn btn-default btn-block">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    Nuevo Almuno
+                    Nuevo Alumno
                 </button>
             </div>
         </div>
