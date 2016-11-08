@@ -26,7 +26,7 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;" >
                 <button onclick="openModalUsuario(1, true);" type="button" class="btn btn-default btn-block">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     Nuevo Administrador

@@ -37,7 +37,7 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
         Mensaje m = new Mensaje();
         entity.setNombre(entity.getNombre().toUpperCase());
         entity.setApellido(entity.getApellido().toUpperCase());
-        String cod = null;
+        String cod = "";
         if (null != entity.getCodTipoUsuario().getCodTipoUsuario()) {
             switch (entity.getCodTipoUsuario().getCodTipoUsuario()) {
                 case 3: //alumno
@@ -55,18 +55,18 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
                     cod = "PC";
                     cod += entity.getNombre().charAt(0);
                     cod += entity.getApellido().substring(0, 3);
-                    cod = cod.toUpperCase();
+                    cod += String.format("%03d", listarSoloDocentes().size() + 1);
                     break;
                 case 1:
                     cod = "AD";
                     cod += entity.getNombre().charAt(0);
                     cod += entity.getApellido().substring(0, 3);
-                    cod = cod.toUpperCase();
                     break;
                 default:
                     break;
             }
         }
+        cod = cod.toUpperCase();
         if (Obtener(cod) == null) {
             entity.setCodUsuario(cod.toUpperCase());
             em.getTransaction().begin();
@@ -125,6 +125,10 @@ public class UsuarioDao implements BaseDao<Usuario, String> {
     public List<Usuario> listarSoloAlumnos() throws Exception {
 
         return em.createQuery("SELECT u FROM Usuario u WHERE u.codTipoUsuario.codTipoUsuario=3").getResultList();
+    }
+    public List<Usuario> listarSoloDocentes() throws Exception {
+
+        return em.createQuery("SELECT u FROM Usuario u WHERE u.codTipoUsuario.codTipoUsuario=2").getResultList();
     }
 
     public List<Usuario> busquedaPorCampos(String codigo, String apellidos, String estado) throws Exception {

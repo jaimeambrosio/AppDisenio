@@ -7,9 +7,21 @@ var tblProducto;
 function p_producto()
 {
     TrimToInput();
+    /*
+     $.validator.addMethod("validNumber", function (value, element) {
+     return value.indexOf(",") < 0;
+     
+     }, "La separacion decimal debe ser con punto(.)");
+     */
     $.validator.addMethod("validNumber", function (value, element) {
-        return value.indexOf(",") < 0;
-    }, "La separacion decimal debe ser con punto(.)");
+
+        return !isNaN(value) && value.indexOf(",") < 0;
+    }, "Por favor, escriba un número válido.");
+    $.validator.addMethod("validNumberMinMax", function (value, element) {
+
+        return  eval(value) >= 1 && eval(value) <= 5000
+    }, "El valor debe estar entre 1 y 5000");
+
 
     tblProducto = $('#tblProducto').DataTable(glbOptionsDataTable);
     $('#idFormBusquedaProducto').ajaxForm({
@@ -51,8 +63,9 @@ function p_producto()
     });
 
     $("#idFormProducto").validate({rules: {
-            txtDNI: {
-                validNumber: true
+            txtPrecio: {
+                validNumber: true,
+                validNumberMinMax: true
             }
         }}).resetForm();
     $("#idFormProducto .error").removeClass("error");
@@ -95,8 +108,9 @@ function openEditarProducto(cod)
             data = JSON.parse(data);
             if (data.msj.hayMensaje != true) {
                 $("#idFormProducto").validate({rules: {
-                        txtDNI: {
-                            validNumber: true
+                        txtPrecio: {
+                            validNumber: true,
+                            validNumberMinMax: true
                         }
                     }}).resetForm();
                 $("#idFormProducto .error").removeClass("error");

@@ -350,7 +350,11 @@ public class usuarioServlet extends HttpServlet {
             u.setFlgActivo(Boolean.parseBoolean(cbxEstado));
             Tipousuario t = usuarioDao.ObtenerTipo(txtTipoUsuario);
             u.setCodTipoUsuario(t);
-            if (!usuarioDao.existeDni(u)) {
+            if (usuarioDao.existeDni(u)) {
+                mensaje.setMensaje(Mensaje.ERROR, "El número de DNI se encuentra registrado, ingresar un número distinto.");
+            } else if (u.getFechaNacimiento().getTime() > new Date().getTime()) {
+                mensaje.setMensaje(Mensaje.ERROR, "La fecha ingresada no tiene el formato correcto.");
+            } else {
                 if (txtCodigo.isEmpty()) //nuevo
                 {
                     Mensaje m = usuarioDao.Insertar(u);
@@ -405,9 +409,6 @@ public class usuarioServlet extends HttpServlet {
                         }
                     }
                 }
-
-            } else {
-                mensaje.setMensaje(Mensaje.ERROR, "El número de DNI se encuentra registrado, ingresar un número distinto.");
             }
 
         } catch (Exception e) {

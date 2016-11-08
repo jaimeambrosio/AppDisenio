@@ -124,7 +124,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label  >Descripción </label>
-                                        <textarea maxlength="200" minlength="3"  type="text"  class="form-control" id="txtDescripcion" name="txtDescripcion"  ></textarea>
+                                        <textarea maxlength="200" minlength="3"  type="text"  class="form-control" id="txtDescripcion" name="txtDescripcion" required="" ></textarea>
                                     </div>
                                 </div>
                             </div>

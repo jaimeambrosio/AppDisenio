@@ -45,6 +45,7 @@ public class SedeDao implements BaseDao<Sede, String> {
     @Override
     public Mensaje Insertar(Sede entity) throws Exception {
         Mensaje m = new Mensaje();
+
         String[] nombres = entity.getNombreSede().split(" ");
         String cod = nombres[0].charAt(0) + "";
         if (nombres.length > 1) {
@@ -52,6 +53,7 @@ public class SedeDao implements BaseDao<Sede, String> {
         } else {
             cod += nombres[0].charAt(1) + "";
         }
+        cod += String.format("%02d", listar().size() + 1);
         if (Obtener(cod) == null) {
             entity.setCodSede(cod.toUpperCase());
             em.getTransaction().begin();

@@ -70,7 +70,14 @@ function openModalGlbUsuario()
             $("#idGlbSectionDocente").hide();
             $("#idGlbSectionAlumno").hide();
             if (data.msj.hayMensaje != true) {
-                $("#idGlbFormUsuario").validate().resetForm();
+                $("#idGlbFormUsuario").validate({rules: {
+                        txtCelular: {
+                            vCel: true
+                        },
+                        txtCorreo: {
+                            vCorreo: true
+                        }
+                    }}).resetForm();
                 $("#idGlbFormUsuario .error").removeClass("error");
                 $("#idGlbFormUsuario *").attr("disabled", true);
 
@@ -84,6 +91,7 @@ function openModalGlbUsuario()
                 $("#txtGlbCorreo").val(data.usuario.correo);
                 $("#txtGlbContrasenia").val(data.usuario.contrasenia);
                 $("#cbxGlbEstado").val("" + data.usuario.flgActivo);
+                $("#cbxGlbTipoUsuario").val(data.usuario.codTipoUsuario);
                 if (data.usuario.codTipoUsuario == 2) {
                     $("#cbGlbTiempoCom").attr("checked", data.usuario.isTiempoCompleto);
                     $("#idGlbSectionDocente").show();
@@ -148,6 +156,15 @@ $().ready(function () {
     });
     configureMenu();
     TrimToInput();
+    $.validator.addMethod("vCel", function (value, element) {
+        return value.length === 9 && !isNaN(value);
+    }, "Este campo solo debe tener 9 digitos.");
+    $.validator.addMethod("vCorreo", function (value, element) {
+        var s = value.split("@");
+        if (s.length > 1)
+            return s[1].indexOf(".") > -1;
+        return false;
+    }, "Por favor, escriba un correo electrónico válido.");
     $("#pCursos").click();
 });
 

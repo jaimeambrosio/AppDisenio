@@ -5,7 +5,7 @@ function p_usuarios()
     $.validator.addMethod("validDNI", function (value, element) {
 
         return value.length === 8 && !isNaN(value);
-    }, "Este campo solo debe tener 8 digitos.");
+    }, "Este campo debe tener solo 8 caracteres y estos tienen que ser numeros.");
     $.validator.addMethod("vSoloText", function (value, element) {
         for (var i = 0; i < value.length; i++) {
             var code = value.charCodeAt(i);
@@ -18,9 +18,7 @@ function p_usuarios()
         }
         return true;
     }, "No se permiten numeros o caracteres  especiales.");
-    $.validator.addMethod("vCel", function (value, element) {
-        return value.length === 9 && !isNaN(value);
-    }, "Este campo solo debe tener 9 digitos.");
+    
 
     tblUsuarios = $('#tblUsuarios').DataTable(glbOptionsDataTable);
     $("#idFormUsuarioAdmin").validate({rules: {
@@ -35,6 +33,9 @@ function p_usuarios()
             },
             txtCelular: {
                 vCel: true
+            },
+            txtCorreo: {
+                vCorreo: true
             }
         }}).resetForm();
     $('#idFormBusquedaUsuarios').ajaxForm({
@@ -169,6 +170,9 @@ function reestablecerFormUsuario()
             },
             txtCelular: {
                 vCel: true
+            },
+            txtCorreo: {
+                vCorreo: true
             }
         }}).resetForm();
     $("#idFormUsuarioAdmin .error").removeClass("error");
