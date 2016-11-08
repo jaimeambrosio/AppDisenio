@@ -19,7 +19,6 @@ function p_usuarios()
         return true;
     }, "No se permiten numeros o caracteres  especiales.");
     
-
     tblUsuarios = $('#tblUsuarios').DataTable(glbOptionsDataTable);
     $("#idFormUsuarioAdmin").validate({rules: {
             txtDNI: {
@@ -123,6 +122,8 @@ function openEditarUsuarioById(codUsuario)
             data = JSON.parse(data);
             if (data.msj.hayMensaje != true) {
                 reestablecerFormUsuario();
+                //console.log(data);
+                $("#cbxEstado [value=false]").attr("disabled",false);
                 $("#txtCodigo").val(data.usuario.codUsuario);
                 $("#txtNombre").val(data.usuario.nombre);
                 $("#txtApellido").val(data.usuario.apellido);
@@ -140,6 +141,9 @@ function openEditarUsuarioById(codUsuario)
                     $("#cbxCarrera").val("" + data.usuario.codCarrera);
                     $("#cbxSede").val("" + data.usuario.codSede);
                     $("#txtColegioProc").val(data.usuario.colegioProcedencia);
+                }
+                if (data.usuario.codTipoUsuario == 1) {
+                    $("#cbxEstado [value=false]").attr("disabled",true);
                 }
                 openModalUsuario(data.usuario.codTipoUsuario, false);
             } else
