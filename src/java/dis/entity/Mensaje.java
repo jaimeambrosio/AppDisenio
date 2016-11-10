@@ -5,6 +5,9 @@
  */
 package dis.entity;
 
+import dis.util.EnviaCorreo;
+import java.util.Date;
+
 /**
  *
  * @author Jaime Ambrosio
@@ -82,6 +85,16 @@ public class Mensaje {
         hayMensaje = true;
         tipo = Mensaje.ERROR;
         mensaje = "Ha ocurrido un error interno. Intenta la accion dentro de un tiempo";
+        String msj = "FECHA: " + new Date() + "\nMENSAJE: \n" + e.getMessage() + "\nLOCALIZACION: \n" + e.getLocalizedMessage() + "\nDETALLE\n" + e.toString();
+
+        Runnable runnable = new Runnable() {
+            public void run() {
+                EnviaCorreo correo = new EnviaCorreo(msj);
+                correo.sendMail();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
 }

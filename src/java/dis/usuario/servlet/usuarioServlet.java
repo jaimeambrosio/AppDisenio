@@ -410,7 +410,6 @@ public class usuarioServlet extends HttpServlet {
                     }
                 }
             }
-
         } catch (Exception e) {
             mensaje.establecerError(e);
         }
